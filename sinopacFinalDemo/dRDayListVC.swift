@@ -10,55 +10,268 @@ import UIKit
 
 class dRDayListVC: UIViewController {
 
-    var tableViewSection : [String] = ["2017/3/22","2017/3/23","2017/3/24"]
-    var dataArray : [String] = ["早餐","午餐","晚餐","宵夜"]
+    var db : SQLiteConnect?
     
     @IBOutlet weak var dRDayListTableView: UITableView!
+    @IBOutlet weak var dRDayListView: UIView!
+    
+    var resturantCount: [String?] = []
+    var resturantName: [String?] = []
+    var resturantPhoto: [String?] = []
+    var resturantStyle: [String?] = []
+    var resturantPrice: [String?] = []
+    var resturantDate: [String?] = []
+    
+    var testPhoto: [String?] = []
+    
+    var searchController = UISearchController()
+    var filtered:[String] = [String](){
+        didSet  {dRDayListTableView.reloadData()}
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.leftBarButtonItem?.title = "返回"
+        
+        print("dRDayListVC")
+        
+        // MARK: - NavigationSetting
         navigationItem.title = "美食總覽"
+        
+        let navigationRightNewButton = UIBarButtonItem(title: "新增日誌", style: .plain, target: self, action: #selector(addDayRecord))
+        navigationItem.rightBarButtonItem = navigationRightNewButton
+        
+        //MARK: - 啟動資料庫
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let sqlitePath = urls[urls.count-1].absoluteString+"CardDb.sqlite3"
+        
+        db = SQLiteConnect(path : sqlitePath)
+            
+        // MARK: - UISearchController
+        self.searchController = UISearchController(searchResultsController: nil)
+        self.searchController.searchResultsUpdater = self
+        self.searchController.hidesNavigationBarDuringPresentation = true
+        self.searchController.dimsBackgroundDuringPresentation = true
+        self.searchController.searchBar.searchBarStyle = .prominent
+        self.searchController.searchBar.sizeToFit()
+        
+        self.dRDayListView.addSubview(searchController.searchBar)
+        dRDayListTableView.tableHeaderView = dRDayListView
+        
+        dRDayListTableView.separatorStyle = .none
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        if let mydb = db{
+            let statement = mydb.fetch(tableName: "diaryRecord", cond: nil, order: nil)
+            while sqlite3_step(statement) == SQLITE_ROW{
+                if let count = sqlite3_column_text(statement, 0){
+                    var a:String? = String(cString: count)
+                    print(a)
+                    resturantCount.append(a!)
+                }
+                if let name = sqlite3_column_text(statement, 1){
+                    var a:String? = String(cString: name)
+                    print(a)
+                    resturantName.append(a!)
+                }
+                if let photo = sqlite3_column_text(statement, 2){
+                    var a:String? = String(cString: photo)
+                    print(a)
+                    resturantPhoto.append(a!)
+                }
+                if let style = sqlite3_column_text(statement, 3){
+                    var a:String? = String(cString: style)
+                    print(a)
+                    resturantStyle.append(a!)
+                }
+                if let price = sqlite3_column_text(statement, 4){
+                    var a:String? = String(cString: price)
+                    print(a)
+                    resturantPrice.append(a!)
+                }
+                if let date = sqlite3_column_text(statement, 5){
+                    var a:String? = String(cString: date)
+                    print(a)
+                    resturantDate.append(a!)
+                }
+                
+            }
+            sqlite3_finalize(statement)
+            
+            let statement1 = mydb.fetch(tableName: "ResturantTypeAndPictureGet", cond: nil, order: nil)
+            if sqlite3_step(statement1) == SQLITE_ROW{
+                if let photo = sqlite3_column_text(statement1, 8){
+                    var a:String? = String(cString: photo)
+                    
+                    print("asdasdasd"+a!)
+                    testPhoto.append(a!)
+                }
+            }
+            sqlite3_finalize(statement1)
+
+        }
+        
+        if resturantCount[0] == nil{
+            resturantCount.append("")
+            resturantName.append("")
+            resturantPhoto.append("")
+            resturantStyle.append("")
+            resturantPrice.append("")
+            resturantDate.append("")
+        }
+
         
         dRDayListTableView.dataSource = self
         dRDayListTableView.delegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         
+        dRDayListTableView.reloadData()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        
+        resturantCount = []
+        resturantName = []
+        resturantPhoto = []
+        resturantStyle = []
+        resturantPrice = []
+        resturantDate = []
+    }
+    
+    func showMonth(){
+       self.performSegue(withIdentifier: "goToPopViewMonth", sender: nil)
+    }
+    // MARK: - 傳遞資訊
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToPopViewMonth" {
+            let popView = segue.destination
+            popView.preferredContentSize = CGSize(width: 300, height: 300)
+            let con = popView.popoverPresentationController
+            if con != nil{
+                con?.delegate = self
+            }
+        }
+    }
+    
+    func addDayRecord(){
+        let goToDRDayDetail = storyboard?.instantiateViewController(withIdentifier: "dRDayDetailVC") as!dRDayDetailVC
+        navigationController?.pushViewController(goToDRDayDetail, animated: true)
     }
 }
+// MARK: - UITableViewDataSource
 extension dRDayListVC : UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
-        return tableViewSection.count
+        if searchController.isActive{
+            return 1
+        }else{
+            return resturantDate.count
+        }
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return tableViewSection[section]
+        if searchController.isActive{
+            return "搜尋結果"
+        }else{
+            return resturantDate[section]
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataArray.count
+        if searchController.isActive{
+            return filtered.count
+        }else{
+            return resturantCount.count
+        }
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "dRDayListTableViewCell", for: indexPath)
         
-//        cell.layer.shadowOffset = CGSize.init(width: 5, height: 5)
-//        cell.layer.shadowOpacity = 0.7
-//        cell.layer.shadowRadius = 5
-//        cell.layer.shadowColor = UIColor(red:44.0/255.0,green:62.0/255.0,blue:80.0/255.0,alpha:1.0).cgColor
         cell.layer.borderColor = UIColor.orange.cgColor
         cell.layer.borderWidth = 1
+        cell.layer.cornerRadius = 8
         
-        cell.textLabel?.text = "\(dataArray[indexPath.row])"
-        cell.textLabel?.backgroundColor = UIColor.orange
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        cell.contentView.addSubview(label)
         
-        return cell
+        let subLabel = UILabel()
+        subLabel.translatesAutoresizingMaskIntoConstraints = false
+        cell.contentView.addSubview(subLabel)
+        
+        var image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        cell.contentView.addSubview(image)
+        
+        let views = ["label":label,"subLabel":subLabel,"image":image] as [String : Any]
+        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[image(80)]", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-[label]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[label(50)]-0-[subLabel(30)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-[subLabel]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[label(50)]-0-[subLabel(30)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+        
+        if searchController.isActive{
+            label.text = "老吳滷肉飯"
+            subLabel.text = "\(filtered[indexPath.row])"
+            image.image = UIImage(named: "/Users/wei/Desktop/sinopacFinalDemo/圖片/test.png")
+            return cell
+        }else{
+            //let url = URL(string: "\((resturantPhoto[indexPath.row])!)")
+            //let data = try!Data(contentsOf: url!)
+
+            let url = URL(string: "\((testPhoto[0])!)")
+            let data = try!Data(contentsOf: url!)
+            
+            label.text = resturantName[indexPath.row]
+            subLabel.text = resturantStyle[indexPath.row]
+            image.image = UIImage(data: data)
+            return cell
+        }
     }
 }
+// MARK: - UITableViewDelegate
 extension dRDayListVC : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // let pushTodRDayDetail = storyboard?.instantiateViewController(withIdentifier: "dRDayDetailVC")) as! dRDayDetailVC
+        let goTodRDayDetail = storyboard?.instantiateViewController(withIdentifier: "dRDayDetailVC") as! dRDayDetailVC
+        goTodRDayDetail.getValueFromUpperView = "\((resturantCount[indexPath.row])!)"
+        //goTodRDayDetail.getPageFromUpperView = "DRDayList"
         
-        
+        navigationController?.pushViewController(goTodRDayDetail, animated: true)
     }
 }
+// MARK: - UISearchResultsUpdating
+extension dRDayListVC : UISearchResultsUpdating{
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let seachText = searchController.searchBar.text else {
+            return
+        }
+        
+        self.filtered = self.resturantName.filter({
+            (dataList) -> Bool in
+            let dataListText : NSString = dataList as! NSString
+            return (dataListText.range(of: seachText, options:NSString.CompareOptions.caseInsensitive).location)
+                != NSNotFound
+        }) as! [String]
+    }
+}
+// MARK: - UIPopoverPresentationControllerDelegate
+extension dRDayListVC : UIPopoverPresentationControllerDelegate{
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+}
+
+
+
+
+
+
+
+

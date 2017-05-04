@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		671C949BCB8D53C7D6D3D944 /* Pods_sinopacFinalDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9059D11AB11A0FB186C806A /* Pods_sinopacFinalDemoTests.framework */; };
+		818ABA3E2F1801C380CEF5D7 /* Pods_sinopacFinalDemoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9CCB09CCF662D2A9EF7B473 /* Pods_sinopacFinalDemoUITests.framework */; };
+		B6754C791EA75A4C00318629 /* rMGoogleMapMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6754C781EA75A4C00318629 /* rMGoogleMapMain.swift */; };
+		B6F064AA1EAD925400B38462 /* loveOrNotResturantInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F064A91EAD925400B38462 /* loveOrNotResturantInformation.swift */; };
+		B6F064AC1EADE7F300B38462 /* postData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F064AB1EADE7F300B38462 /* postData.swift */; };
+		B6F064E81EB08CE600B38462 /* EnterAndDownloadPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F064E71EB08CE600B38462 /* EnterAndDownloadPage.swift */; };
+		B6F1D31E1E9F5240008DA8BA /* loveOrNotResturantDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F1D31D1E9F5240008DA8BA /* loveOrNotResturantDetail.swift */; };
 		B6F637271E824CFE00014963 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F637261E824CFE00014963 /* AppDelegate.swift */; };
 		B6F6372C1E824CFE00014963 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6F6372A1E824CFE00014963 /* Main.storyboard */; };
 		B6F6372E1E824CFE00014963 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6F6372D1E824CFE00014963 /* Assets.xcassets */; };
@@ -18,6 +25,31 @@
 		B6F6375B1E82519C00014963 /* storyboardStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6375A1E82519C00014963 /* storyboardStruct.swift */; };
 		B6F6375E1E8269FE00014963 /* loveOrNot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6375D1E8269FE00014963 /* loveOrNot.swift */; };
 		B6F637601E826E4E00014963 /* loveOrNotBlackListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6375F1E826E4E00014963 /* loveOrNotBlackListVC.swift */; };
+		B6F637631E83A25200014963 /* pageViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F637621E83A25200014963 /* pageViewVC.swift */; };
+		B6F637651E83A28A00014963 /* mainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F637641E83A28A00014963 /* mainView.swift */; };
+		B6F6376D1E88F3D000014963 /* popView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6376C1E88F3D000014963 /* popView.swift */; };
+		B6F637701E89050900014963 /* rRRandomMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6376F1E89050900014963 /* rRRandomMain.swift */; };
+		B6F637721E890B4000014963 /* rRFoodMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F637711E890B4000014963 /* rRFoodMap.swift */; };
+		B6F637751E8A366600014963 /* dRDayListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F637731E8A366600014963 /* dRDayListTableViewCell.swift */; };
+		B6F637761E8A366600014963 /* dRDayListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6F637741E8A366600014963 /* dRDayListTableViewCell.xib */; };
+		B6F6377A1E8A474400014963 /* test.png in Resources */ = {isa = PBXBuildFile; fileRef = B6F637791E8A474400014963 /* test.png */; };
+		B6F6377D1E8B86F700014963 /* dRDayListPopViewTableViewCollectionCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6377B1E8B86F700014963 /* dRDayListPopViewTableViewCollectionCustomCell.swift */; };
+		B6F6377E1E8B86F700014963 /* dRDayListPopViewTableViewCollectionCustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6F6377C1E8B86F700014963 /* dRDayListPopViewTableViewCollectionCustomCell.xib */; };
+		B6F637811E8B878C00014963 /* dRDayListPopViewTableViewCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6377F1E8B878C00014963 /* dRDayListPopViewTableViewCustomCell.swift */; };
+		B6F637821E8B878C00014963 /* dRDayListPopViewTableViewCustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6F637801E8B878C00014963 /* dRDayListPopViewTableViewCustomCell.xib */; };
+		B6F6378B1E8BA16700014963 /* loveOrNotTableVIiewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F637891E8BA16700014963 /* loveOrNotTableVIiewCell.swift */; };
+		B6F6378C1E8BA16700014963 /* loveOrNotTableVIiewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6F6378A1E8BA16700014963 /* loveOrNotTableVIiewCell.xib */; };
+		B6F6378F1E8BA18C00014963 /* loveOrNotTableViewCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6378D1E8BA18C00014963 /* loveOrNotTableViewCellTableViewCell.swift */; };
+		B6F637901E8BA18C00014963 /* loveOrNotTableViewCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6F6378E1E8BA18C00014963 /* loveOrNotTableViewCellTableViewCell.xib */; };
+		B6F637921E92738800014963 /* popViewConditionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F637911E92738700014963 /* popViewConditionView.swift */; };
+		B6FA60921EA3795200D204FE /* CustomPresentAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FA60911EA3795100D204FE /* CustomPresentAnimationController.swift */; };
+		B6FFEA261E94F2B600E5452E /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FFEA251E94F2B600E5452E /* Item.swift */; };
+		B6FFEA291E961A1300E5452E /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B6FFEA281E961A1300E5452E /* libsqlite3.tbd */; };
+		B6FFEA311E9B167800E5452E /* SQLiteConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FFEA301E9B167700E5452E /* SQLiteConnect.swift */; };
+		B6FFEA331E9CCFA200E5452E /* TestUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FFEA321E9CCFA100E5452E /* TestUrl.swift */; };
+		B6FFEA361E9E248D00E5452E /* loveOrNotTableViewResturantCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FFEA341E9E248C00E5452E /* loveOrNotTableViewResturantCell.swift */; };
+		B6FFEA371E9E248D00E5452E /* loveOrNotTableViewResturantCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6FFEA351E9E248C00E5452E /* loveOrNotTableViewResturantCell.xib */; };
+		C6CEC944A441835349006FFE /* Pods_sinopacFinalDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4AD1AD24E7352821DA8FD3F /* Pods_sinopacFinalDemo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +70,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0E64946A6BC8C6AC7A35FA77 /* Pods-sinopacFinalDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sinopacFinalDemoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-sinopacFinalDemoTests/Pods-sinopacFinalDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		6C7CE7F57176D58747026D61 /* Pods-sinopacFinalDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sinopacFinalDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-sinopacFinalDemo/Pods-sinopacFinalDemo.release.xcconfig"; sourceTree = "<group>"; };
+		90AEE6DD08317F093C638DA3 /* Pods-sinopacFinalDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sinopacFinalDemoUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-sinopacFinalDemoUITests/Pods-sinopacFinalDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
+		936C0A50182686F604C73882 /* Pods-sinopacFinalDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sinopacFinalDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-sinopacFinalDemo/Pods-sinopacFinalDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		B6754C781EA75A4C00318629 /* rMGoogleMapMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = rMGoogleMapMain.swift; sourceTree = "<group>"; };
+		B6F064A91EAD925400B38462 /* loveOrNotResturantInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loveOrNotResturantInformation.swift; sourceTree = "<group>"; };
+		B6F064AB1EADE7F300B38462 /* postData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = postData.swift; sourceTree = "<group>"; };
+		B6F064E71EB08CE600B38462 /* EnterAndDownloadPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterAndDownloadPage.swift; sourceTree = "<group>"; };
+		B6F1D31D1E9F5240008DA8BA /* loveOrNotResturantDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loveOrNotResturantDetail.swift; sourceTree = "<group>"; };
 		B6F637231E824CFE00014963 /* sinopacFinalDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sinopacFinalDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6F637261E824CFE00014963 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6F6372B1E824CFE00014963 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -55,6 +96,36 @@
 		B6F6375A1E82519C00014963 /* storyboardStruct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = storyboardStruct.swift; sourceTree = "<group>"; };
 		B6F6375D1E8269FE00014963 /* loveOrNot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loveOrNot.swift; sourceTree = "<group>"; };
 		B6F6375F1E826E4E00014963 /* loveOrNotBlackListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loveOrNotBlackListVC.swift; sourceTree = "<group>"; };
+		B6F637621E83A25200014963 /* pageViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = pageViewVC.swift; sourceTree = "<group>"; };
+		B6F637641E83A28A00014963 /* mainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mainView.swift; sourceTree = "<group>"; };
+		B6F6376C1E88F3D000014963 /* popView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = popView.swift; sourceTree = "<group>"; };
+		B6F6376F1E89050900014963 /* rRRandomMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = rRRandomMain.swift; sourceTree = "<group>"; };
+		B6F637711E890B4000014963 /* rRFoodMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = rRFoodMap.swift; sourceTree = "<group>"; };
+		B6F637731E8A366600014963 /* dRDayListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dRDayListTableViewCell.swift; sourceTree = "<group>"; };
+		B6F637741E8A366600014963 /* dRDayListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = dRDayListTableViewCell.xib; sourceTree = "<group>"; };
+		B6F637791E8A474400014963 /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = test.png; path = "圖片/test.png"; sourceTree = SOURCE_ROOT; };
+		B6F6377B1E8B86F700014963 /* dRDayListPopViewTableViewCollectionCustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dRDayListPopViewTableViewCollectionCustomCell.swift; sourceTree = "<group>"; };
+		B6F6377C1E8B86F700014963 /* dRDayListPopViewTableViewCollectionCustomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = dRDayListPopViewTableViewCollectionCustomCell.xib; sourceTree = "<group>"; };
+		B6F6377F1E8B878C00014963 /* dRDayListPopViewTableViewCustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dRDayListPopViewTableViewCustomCell.swift; sourceTree = "<group>"; };
+		B6F637801E8B878C00014963 /* dRDayListPopViewTableViewCustomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = dRDayListPopViewTableViewCustomCell.xib; sourceTree = "<group>"; };
+		B6F637891E8BA16700014963 /* loveOrNotTableVIiewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loveOrNotTableVIiewCell.swift; sourceTree = "<group>"; };
+		B6F6378A1E8BA16700014963 /* loveOrNotTableVIiewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = loveOrNotTableVIiewCell.xib; sourceTree = "<group>"; };
+		B6F6378D1E8BA18C00014963 /* loveOrNotTableViewCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loveOrNotTableViewCellTableViewCell.swift; sourceTree = "<group>"; };
+		B6F6378E1E8BA18C00014963 /* loveOrNotTableViewCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = loveOrNotTableViewCellTableViewCell.xib; sourceTree = "<group>"; };
+		B6F637911E92738700014963 /* popViewConditionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = popViewConditionView.swift; sourceTree = "<group>"; };
+		B6FA60911EA3795100D204FE /* CustomPresentAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPresentAnimationController.swift; sourceTree = "<group>"; };
+		B6FFEA251E94F2B600E5452E /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		B6FFEA281E961A1300E5452E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		B6FFEA2B1E961A6D00E5452E /* BridgeHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BridgeHeader.h; sourceTree = "<group>"; };
+		B6FFEA301E9B167700E5452E /* SQLiteConnect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteConnect.swift; sourceTree = "<group>"; };
+		B6FFEA321E9CCFA100E5452E /* TestUrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestUrl.swift; sourceTree = "<group>"; };
+		B6FFEA341E9E248C00E5452E /* loveOrNotTableViewResturantCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loveOrNotTableViewResturantCell.swift; sourceTree = "<group>"; };
+		B6FFEA351E9E248C00E5452E /* loveOrNotTableViewResturantCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = loveOrNotTableViewResturantCell.xib; sourceTree = "<group>"; };
+		CF9F85978911A1E781B66CB5 /* Pods-sinopacFinalDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sinopacFinalDemoUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-sinopacFinalDemoUITests/Pods-sinopacFinalDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		D9CCB09CCF662D2A9EF7B473 /* Pods_sinopacFinalDemoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_sinopacFinalDemoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9059D11AB11A0FB186C806A /* Pods_sinopacFinalDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_sinopacFinalDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4AD1AD24E7352821DA8FD3F /* Pods_sinopacFinalDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_sinopacFinalDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F76EC9785D9CF4FF2739B576 /* Pods-sinopacFinalDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sinopacFinalDemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-sinopacFinalDemoTests/Pods-sinopacFinalDemoTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +133,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6FFEA291E961A1300E5452E /* libsqlite3.tbd in Frameworks */,
+				C6CEC944A441835349006FFE /* Pods_sinopacFinalDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,6 +142,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				671C949BCB8D53C7D6D3D944 /* Pods_sinopacFinalDemoTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,12 +150,34 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				818ABA3E2F1801C380CEF5D7 /* Pods_sinopacFinalDemoUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8787644B63CE4CFD172D0D9A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				936C0A50182686F604C73882 /* Pods-sinopacFinalDemo.debug.xcconfig */,
+				6C7CE7F57176D58747026D61 /* Pods-sinopacFinalDemo.release.xcconfig */,
+				0E64946A6BC8C6AC7A35FA77 /* Pods-sinopacFinalDemoTests.debug.xcconfig */,
+				F76EC9785D9CF4FF2739B576 /* Pods-sinopacFinalDemoTests.release.xcconfig */,
+				CF9F85978911A1E781B66CB5 /* Pods-sinopacFinalDemoUITests.debug.xcconfig */,
+				90AEE6DD08317F093C638DA3 /* Pods-sinopacFinalDemoUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		B6754C771EA7599400318629 /* resturantMap */ = {
+			isa = PBXGroup;
+			children = (
+				B6754C781EA75A4C00318629 /* rMGoogleMapMain.swift */,
+			);
+			name = resturantMap;
+			sourceTree = "<group>";
+		};
 		B6F6371A1E824CFC00014963 = {
 			isa = PBXGroup;
 			children = (
@@ -89,6 +185,8 @@
 				B6F6373A1E824CFF00014963 /* sinopacFinalDemoTests */,
 				B6F637451E824CFF00014963 /* sinopacFinalDemoUITests */,
 				B6F637241E824CFE00014963 /* Products */,
+				B6FFEA271E961A1200E5452E /* Frameworks */,
+				8787644B63CE4CFD172D0D9A /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -105,6 +203,10 @@
 		B6F637251E824CFE00014963 /* sinopacFinalDemo */ = {
 			isa = PBXGroup;
 			children = (
+				B6754C771EA7599400318629 /* resturantMap */,
+				B6FFEA2A1E961A2800E5452E /* sqlite */,
+				B6F6376E1E8904C900014963 /* randomResturant */,
+				B6F637611E83A20A00014963 /* pageView */,
 				B6F6375C1E82699600014963 /* loveOrNot */,
 				B6F637591E82516F00014963 /* suport */,
 				B6F637541E824DC300014963 /* dairyRecord */,
@@ -113,6 +215,9 @@
 				B6F6372D1E824CFE00014963 /* Assets.xcassets */,
 				B6F6372F1E824CFE00014963 /* LaunchScreen.storyboard */,
 				B6F637321E824CFE00014963 /* Info.plist */,
+				B6FFEA321E9CCFA100E5452E /* TestUrl.swift */,
+				B6F064AB1EADE7F300B38462 /* postData.swift */,
+				B6F064E71EB08CE600B38462 /* EnterAndDownloadPage.swift */,
 			);
 			path = sinopacFinalDemo;
 			sourceTree = "<group>";
@@ -140,6 +245,13 @@
 			children = (
 				B6F637551E824E4D00014963 /* dRDayDetailVC.swift */,
 				B6F637571E824E9600014963 /* dRDayListVC.swift */,
+				B6F6376C1E88F3D000014963 /* popView.swift */,
+				B6F637731E8A366600014963 /* dRDayListTableViewCell.swift */,
+				B6F637741E8A366600014963 /* dRDayListTableViewCell.xib */,
+				B6F6377B1E8B86F700014963 /* dRDayListPopViewTableViewCollectionCustomCell.swift */,
+				B6F6377C1E8B86F700014963 /* dRDayListPopViewTableViewCollectionCustomCell.xib */,
+				B6F6377F1E8B878C00014963 /* dRDayListPopViewTableViewCustomCell.swift */,
+				B6F637801E8B878C00014963 /* dRDayListPopViewTableViewCustomCell.xib */,
 			);
 			name = dairyRecord;
 			sourceTree = "<group>";
@@ -147,6 +259,7 @@
 		B6F637591E82516F00014963 /* suport */ = {
 			isa = PBXGroup;
 			children = (
+				B6F637791E8A474400014963 /* test.png */,
 				B6F6375A1E82519C00014963 /* storyboardStruct.swift */,
 			);
 			name = suport;
@@ -157,8 +270,57 @@
 			children = (
 				B6F6375D1E8269FE00014963 /* loveOrNot.swift */,
 				B6F6375F1E826E4E00014963 /* loveOrNotBlackListVC.swift */,
+				B6F637891E8BA16700014963 /* loveOrNotTableVIiewCell.swift */,
+				B6F6378A1E8BA16700014963 /* loveOrNotTableVIiewCell.xib */,
+				B6F6378D1E8BA18C00014963 /* loveOrNotTableViewCellTableViewCell.swift */,
+				B6F6378E1E8BA18C00014963 /* loveOrNotTableViewCellTableViewCell.xib */,
+				B6FFEA341E9E248C00E5452E /* loveOrNotTableViewResturantCell.swift */,
+				B6FFEA351E9E248C00E5452E /* loveOrNotTableViewResturantCell.xib */,
+				B6F1D31D1E9F5240008DA8BA /* loveOrNotResturantDetail.swift */,
+				B6FA60911EA3795100D204FE /* CustomPresentAnimationController.swift */,
+				B6F064A91EAD925400B38462 /* loveOrNotResturantInformation.swift */,
 			);
 			name = loveOrNot;
+			sourceTree = "<group>";
+		};
+		B6F637611E83A20A00014963 /* pageView */ = {
+			isa = PBXGroup;
+			children = (
+				B6F637621E83A25200014963 /* pageViewVC.swift */,
+				B6F637641E83A28A00014963 /* mainView.swift */,
+			);
+			name = pageView;
+			sourceTree = "<group>";
+		};
+		B6F6376E1E8904C900014963 /* randomResturant */ = {
+			isa = PBXGroup;
+			children = (
+				B6F6376F1E89050900014963 /* rRRandomMain.swift */,
+				B6F637711E890B4000014963 /* rRFoodMap.swift */,
+				B6FFEA251E94F2B600E5452E /* Item.swift */,
+				B6F637911E92738700014963 /* popViewConditionView.swift */,
+			);
+			name = randomResturant;
+			sourceTree = "<group>";
+		};
+		B6FFEA271E961A1200E5452E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B6FFEA281E961A1300E5452E /* libsqlite3.tbd */,
+				F4AD1AD24E7352821DA8FD3F /* Pods_sinopacFinalDemo.framework */,
+				E9059D11AB11A0FB186C806A /* Pods_sinopacFinalDemoTests.framework */,
+				D9CCB09CCF662D2A9EF7B473 /* Pods_sinopacFinalDemoUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B6FFEA2A1E961A2800E5452E /* sqlite */ = {
+			isa = PBXGroup;
+			children = (
+				B6FFEA2B1E961A6D00E5452E /* BridgeHeader.h */,
+				B6FFEA301E9B167700E5452E /* SQLiteConnect.swift */,
+			);
+			name = sqlite;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,9 +330,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B6F6374B1E824CFF00014963 /* Build configuration list for PBXNativeTarget "sinopacFinalDemo" */;
 			buildPhases = (
+				8C4E8AE2C01532E42123FC45 /* [CP] Check Pods Manifest.lock */,
 				B6F6371F1E824CFC00014963 /* Sources */,
 				B6F637201E824CFC00014963 /* Frameworks */,
 				B6F637211E824CFC00014963 /* Resources */,
+				F46F1890561D003EB67A473B /* [CP] Embed Pods Frameworks */,
+				5717F6A76CF0D998941E3726 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -185,9 +350,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B6F6374E1E824CFF00014963 /* Build configuration list for PBXNativeTarget "sinopacFinalDemoTests" */;
 			buildPhases = (
+				5BD3B13EC0BC81D218329194 /* [CP] Check Pods Manifest.lock */,
 				B6F637331E824CFF00014963 /* Sources */,
 				B6F637341E824CFF00014963 /* Frameworks */,
 				B6F637351E824CFF00014963 /* Resources */,
+				969B76AB9F179C10A148C09B /* [CP] Embed Pods Frameworks */,
+				F24ACE9F36C0DD86CDB36A40 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -203,9 +371,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B6F637511E824CFF00014963 /* Build configuration list for PBXNativeTarget "sinopacFinalDemoUITests" */;
 			buildPhases = (
+				7EF94218D6B1D461F5532015 /* [CP] Check Pods Manifest.lock */,
 				B6F6373E1E824CFF00014963 /* Sources */,
 				B6F6373F1E824CFF00014963 /* Frameworks */,
 				B6F637401E824CFF00014963 /* Resources */,
+				F60BBA82D16988BED5F0A908 /* [CP] Embed Pods Frameworks */,
+				5DDB43E874FCDB17955CE21E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -229,6 +400,7 @@
 				TargetAttributes = {
 					B6F637221E824CFC00014963 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = FS33S77682;
 						ProvisioningStyle = Automatic;
 					};
 					B6F637361E824CFF00014963 = {
@@ -268,9 +440,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6F6378C1E8BA16700014963 /* loveOrNotTableVIiewCell.xib in Resources */,
+				B6F6377E1E8B86F700014963 /* dRDayListPopViewTableViewCollectionCustomCell.xib in Resources */,
 				B6F637311E824CFE00014963 /* LaunchScreen.storyboard in Resources */,
+				B6F6377A1E8A474400014963 /* test.png in Resources */,
 				B6F6372E1E824CFE00014963 /* Assets.xcassets in Resources */,
+				B6F637821E8B878C00014963 /* dRDayListPopViewTableViewCustomCell.xib in Resources */,
+				B6F637761E8A366600014963 /* dRDayListTableViewCell.xib in Resources */,
+				B6F637901E8BA18C00014963 /* loveOrNotTableViewCellTableViewCell.xib in Resources */,
 				B6F6372C1E824CFE00014963 /* Main.storyboard in Resources */,
+				B6FFEA371E9E248D00E5452E /* loveOrNotTableViewResturantCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,17 +469,176 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		5717F6A76CF0D998941E3726 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-sinopacFinalDemo/Pods-sinopacFinalDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5BD3B13EC0BC81D218329194 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		5DDB43E874FCDB17955CE21E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-sinopacFinalDemoUITests/Pods-sinopacFinalDemoUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7EF94218D6B1D461F5532015 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		8C4E8AE2C01532E42123FC45 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		969B76AB9F179C10A148C09B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-sinopacFinalDemoTests/Pods-sinopacFinalDemoTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F24ACE9F36C0DD86CDB36A40 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-sinopacFinalDemoTests/Pods-sinopacFinalDemoTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F46F1890561D003EB67A473B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-sinopacFinalDemo/Pods-sinopacFinalDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F60BBA82D16988BED5F0A908 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-sinopacFinalDemoUITests/Pods-sinopacFinalDemoUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B6F6371F1E824CFC00014963 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6F064AA1EAD925400B38462 /* loveOrNotResturantInformation.swift in Sources */,
+				B6F637811E8B878C00014963 /* dRDayListPopViewTableViewCustomCell.swift in Sources */,
 				B6F637561E824E4D00014963 /* dRDayDetailVC.swift in Sources */,
+				B6F1D31E1E9F5240008DA8BA /* loveOrNotResturantDetail.swift in Sources */,
+				B6F6378F1E8BA18C00014963 /* loveOrNotTableViewCellTableViewCell.swift in Sources */,
+				B6F064AC1EADE7F300B38462 /* postData.swift in Sources */,
+				B6F637701E89050900014963 /* rRRandomMain.swift in Sources */,
+				B6F064E81EB08CE600B38462 /* EnterAndDownloadPage.swift in Sources */,
+				B6FA60921EA3795200D204FE /* CustomPresentAnimationController.swift in Sources */,
+				B6F637751E8A366600014963 /* dRDayListTableViewCell.swift in Sources */,
+				B6F637651E83A28A00014963 /* mainView.swift in Sources */,
+				B6F637721E890B4000014963 /* rRFoodMap.swift in Sources */,
+				B6F6376D1E88F3D000014963 /* popView.swift in Sources */,
+				B6F6378B1E8BA16700014963 /* loveOrNotTableVIiewCell.swift in Sources */,
 				B6F637271E824CFE00014963 /* AppDelegate.swift in Sources */,
+				B6FFEA261E94F2B600E5452E /* Item.swift in Sources */,
+				B6FFEA361E9E248D00E5452E /* loveOrNotTableViewResturantCell.swift in Sources */,
+				B6FFEA331E9CCFA200E5452E /* TestUrl.swift in Sources */,
+				B6F6377D1E8B86F700014963 /* dRDayListPopViewTableViewCollectionCustomCell.swift in Sources */,
 				B6F637581E824E9600014963 /* dRDayListVC.swift in Sources */,
 				B6F6375B1E82519C00014963 /* storyboardStruct.swift in Sources */,
 				B6F6375E1E8269FE00014963 /* loveOrNot.swift in Sources */,
+				B6F637921E92738800014963 /* popViewConditionView.swift in Sources */,
 				B6F637601E826E4E00014963 /* loveOrNotBlackListVC.swift in Sources */,
+				B6FFEA311E9B167800E5452E /* SQLiteConnect.swift in Sources */,
+				B6F637631E83A25200014963 /* pageViewVC.swift in Sources */,
+				B6754C791EA75A4C00318629 /* rMGoogleMapMain.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,30 +788,39 @@
 		};
 		B6F6374C1E824CFF00014963 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 936C0A50182686F604C73882 /* Pods-sinopacFinalDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = FS33S77682;
 				INFOPLIST_FILE = sinopacFinalDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = test.sinopacFinalDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = /Users/wei/Desktop/sinopacFinalDemo/sinopacFinalDemo/BridgeHeader.h;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		B6F6374D1E824CFF00014963 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C7CE7F57176D58747026D61 /* Pods-sinopacFinalDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = FS33S77682;
 				INFOPLIST_FILE = sinopacFinalDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = test.sinopacFinalDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = /Users/wei/Desktop/sinopacFinalDemo/sinopacFinalDemo/BridgeHeader.h;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 		B6F6374F1E824CFF00014963 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0E64946A6BC8C6AC7A35FA77 /* Pods-sinopacFinalDemoTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -488,6 +835,7 @@
 		};
 		B6F637501E824CFF00014963 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F76EC9785D9CF4FF2739B576 /* Pods-sinopacFinalDemoTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -502,6 +850,7 @@
 		};
 		B6F637521E824CFF00014963 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CF9F85978911A1E781B66CB5 /* Pods-sinopacFinalDemoUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = sinopacFinalDemoUITests/Info.plist;
@@ -515,6 +864,7 @@
 		};
 		B6F637531E824CFF00014963 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 90AEE6DD08317F093C638DA3 /* Pods-sinopacFinalDemoUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = sinopacFinalDemoUITests/Info.plist;
@@ -545,6 +895,7 @@
 				B6F6374D1E824CFF00014963 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B6F6374E1E824CFF00014963 /* Build configuration list for PBXNativeTarget "sinopacFinalDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -553,6 +904,7 @@
 				B6F637501E824CFF00014963 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B6F637511E824CFF00014963 /* Build configuration list for PBXNativeTarget "sinopacFinalDemoUITests" */ = {
 			isa = XCConfigurationList;
@@ -561,6 +913,7 @@
 				B6F637531E824CFF00014963 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
