@@ -33,6 +33,9 @@ class rMGoogleMapMain: UIViewController {
 
         print("rMGoogleMapMain")
         
+        //MARK: - NavigationSettig
+        navigationItem.title = "美食地圖"
+        
         // MARK: - 開啟資料庫
         let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let sqlitePath = urls[urls.count-1].absoluteString+"CardDb.sqlite3"
@@ -55,10 +58,13 @@ class rMGoogleMapMain: UIViewController {
         mapView.settings.myLocationButton = true
         mapView.isMyLocationEnabled = true
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        mapView.delegate = self
         
         view.addSubview(mapView)
         mapView.isHidden = true
         
+        // MARK: - Navigation Setting
+        navigationController?.title = "美食地圖"
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -92,7 +98,7 @@ class rMGoogleMapMain: UIViewController {
         mapView.clear()
         
         for i in 0...(arrayName.count-1){
-            marker(latitude: Double(arrayLatitude[i])!, longitude: Double(arrayLongitude[i])!, title: "\(arrayName[i])", snippet: "hello")
+            marker(latitude: Double(arrayLatitude[i])!, longitude: Double(arrayLongitude[i])!, title: "\(arrayName[i])", snippet: "長按可以獲得更多資訊喔！")
         }
 
     }
@@ -155,3 +161,89 @@ extension rMGoogleMapMain: CLLocationManagerDelegate{
         print("Error: \(error)")
     }
 }
+
+extension rMGoogleMapMain: GMSMapViewDelegate{
+    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
+        var selectedRestaurant: String?
+        
+        let restaurantLatitude = NSString(format: "%.6f", marker.position.latitude)
+        let restaurantLongitude = NSString(format: "%.6f", marker.position.longitude)
+        
+        for i in 0...(arrayName.count-1){
+            if arrayLatitude[i] == restaurantLatitude as String && arrayLongitude[i] == restaurantLongitude as String{
+                print(arrayName[i])
+                selectedRestaurant = arrayName[i]
+            }
+        }
+        print("選中的是："+"\(selectedRestaurant!)")
+        
+        var markerView = UIView()
+        markerView.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        markerView.backgroundColor = UIColor.white
+        markerView.layer.cornerRadius = 20
+        
+        let label = UILabel()
+        label.text = "hi"
+        markerView.addSubview(label)
+        
+//        var view = UIView(frame: CGRect(x: 0, y: 0, width: 150, height: 150))
+//        
+//        let label = UILabel()
+//        //label.translatesAutoresizingMaskIntoConstraints = false
+//        label.text = "\(selectedRestaurant!)"
+//        view.addSubview(label)
+//        
+//        let image = UIImageView()
+//        //image.translatesAutoresizingMaskIntoConstraints = false
+//        view.addSubview(image)
+        
+        return markerView
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+        var selectedRestaurant: String?
+        
+        let restaurantLatitude = NSString(format: "%.6f", marker.position.latitude)
+        let restaurantLongitude = NSString(format: "%.6f", marker.position.longitude)
+        
+        for i in 0...(arrayName.count-1){
+            if arrayLatitude[i] == restaurantLatitude as String && arrayLongitude[i] == restaurantLongitude as String{
+                print(arrayName[i])
+                selectedRestaurant = arrayName[i]
+            }
+        }
+        print("選中的是："+"\(selectedRestaurant!)")
+        
+        let goToRMDetailInformation = storyboard?.instantiateViewController(withIdentifier: "rMDetailInformation") as! rMDetailInformation
+        
+        goToRMDetailInformation.getValueFromUpperView = selectedRestaurant!
+        
+        goToRMDetailInformation.modalTransitionStyle = .coverVertical
+        goToRMDetailInformation.modalPresentationStyle = .fullScreen
+        
+        navigationController?.pushViewController(goToRMDetailInformation, animated: true)
+    }
+}
+//extension rMGoogleMapMain: UINavigationControllerDelegate{
+//    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+//        
+//        let transion = rMAnimation()
+//        
+//        return transion
+//    }
+//
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

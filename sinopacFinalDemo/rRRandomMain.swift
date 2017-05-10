@@ -16,8 +16,9 @@ class rRRandomMain: UIViewController {
     var activityIndicator: UIActivityIndicatorView!
     
     let now = NSDate()
-    var goalTime: String?
+    var goalTime: Double?
     var transferDataArray: [AnyObject] = []
+    var countTime: Int?
     
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
@@ -124,11 +125,13 @@ class rRRandomMain: UIViewController {
                 
                 if let timeData = sqlite3_column_text(statement1, 0){
                     var a: String? = String(cString: timeData)
-                    print(a)
-                    goalTime = a!
+                    print("目標時間戳為："+a!)
+                    
+                    goalTime = Double(a!)
                 }
             }else{
                 mydb.insert(tableName: "GoalTime", rowInfo: ["GT_goaltime":"'0'"])
+                goalTime = 0
             }
             sqlite3_finalize(statement1)
             
@@ -146,20 +149,17 @@ class rRRandomMain: UIViewController {
         
         // MARK: - 當前時間(格林威治時間，加上28800為台灣時間)
         let timeInternal: TimeInterval = now.timeIntervalSince1970
-        print((Int)(timeInternal)+28800)
+        print("台灣當前時間時間戳"+"\((Int)(timeInternal)+28800)")
         
-        let date = NSDate(timeIntervalSince1970: TimeInterval((Int)(timeInternal)+28800))
-        print(date)
-        
-        goalTime = "10800"
         // MARK: - 倒數計時Label 進行非同步執行
         let queue = DispatchQueue(label: "com.rRRandomMain.countdown")
         
         queue.async {
-            if self.goalTime != nil{
-                print(self.goalTime!)
-                self.rRRandomMainTimeLabel.text = self.goalTime!
-                self.testTimeNumber = Int(self.goalTime!)
+            if self.goalTime != 0{
+                countTime = Int(goalTime! - (timeInternal as Double))
+                print(self.countTime!)
+                self.rRRandomMainTimeLabel.text = "\(Int(self.countTime!))"
+                self.testTimeNumber = Int(self.countTime!)
                 
                 self.countdowd()
             }else{
@@ -189,6 +189,8 @@ class rRRandomMain: UIViewController {
     
     // MARK: - 拉霸按鈕
     @IBAction func pullButton(_ sender: UIButton) {
+        print("countdown"+"\(countTime!)")
+        if countTime! == 0{
         
         let value = arc4random()%(UInt32)(self.restaurantName.count)
         rRRandomMainPicker.selectRow(Int(value), inComponent: 0, animated: true)
@@ -215,7 +217,10 @@ class rRRandomMain: UIViewController {
             
             if let mydb = self.db{
                 mydb.insert(tableName: "ResturantInformation", rowInfo: ["RI_tableID":"'\(String(tableID))'","RI_id":"'\(((self.transferDataArray[0]["S_id"])!)!)'","RI_name":"'\(self.restaurantName[(Int)(value)])'","RI_address":"'\(((self.transferDataArray[0]["S_address"])!)!)'","RI_phone":"'\(((self.transferDataArray[0]["S_phone"])!)!)'","RI_latitude":"'\(((self.transferDataArray[0]["S_latitude"])!)!)'","RI_longitude":"'\(((self.transferDataArray[0]["S__longitude"])!)!)'","RI_price":"'\(((self.transferDataArray[0]["S_price"])!)!)'","RI_opentime":"'\(((self.transferDataArray[0]["S_opentime"])!)!)'","RI_closetime":"'\(((self.transferDataArray[0]["S_closetime"])!)!)'","RI_photo":"'\(((self.transferDataArray[0]["S_id"])!)!)'","RI_style":"'\(((self.transferDataArray[0]["T_name"])!)!)'","RI_preference":"'like'"])
+                
                 mydb.insert(tableName: "DiaryRecord", rowInfo: ["DR_tableID":"'\(String(tableID))'","DR_name":"'\(((self.transferDataArray[0]["S_name"])!)!)'","DR_photo":"'\(((self.transferDataArray[0]["S_id"])!)!)'","DR_style":"'\(((self.transferDataArray[0]["T_name"])!)!)'","DR_price":"'\(((self.transferDataArray[0]["S_price"])))'","DR_date":"'\(self.now)'"])
+                
+                mydb.insert(tableName: "ResturantPicture", rowInfo: ["RP_tableID":"'\(String(tableID))'","RP_resturantName":"'\(((self.transferDataArray[0]["S_name"])!)!)'"])
             }
             print(((self.transferDataArray[0]["S_name"])!)!)
             print("3")
@@ -227,8 +232,9 @@ class rRRandomMain: UIViewController {
         self.present(alert,animated: true,completion: nil)
         }
         if let mydb = self.db{
-            mydb.update(tableName: "GoalTime", cond: nil, rowInfo: ["GT_goaltime":"'\(now)'"])
+            mydb.update(tableName: "GoalTime", cond: nil, rowInfo: ["GT_goaltime":"'\(Double(now.timeIntervalSince1970)+10)'"])
         }
+       }
     }
     // MARK: - 選擇按鈕
     @IBAction func popViewConditionView(_ sender: UIButton) {

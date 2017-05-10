@@ -10,6 +10,13 @@
 		671C949BCB8D53C7D6D3D944 /* Pods_sinopacFinalDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9059D11AB11A0FB186C806A /* Pods_sinopacFinalDemoTests.framework */; };
 		818ABA3E2F1801C380CEF5D7 /* Pods_sinopacFinalDemoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9CCB09CCF662D2A9EF7B473 /* Pods_sinopacFinalDemoUITests.framework */; };
 		B6754C791EA75A4C00318629 /* rMGoogleMapMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6754C781EA75A4C00318629 /* rMGoogleMapMain.swift */; };
+		B6E7D4B21EC04DA800E4CCEA /* rMDetailInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E7D4B11EC04DA800E4CCEA /* rMDetailInformation.swift */; };
+		B6E7D4B41EC0560D00E4CCEA /* rMAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E7D4B31EC0560D00E4CCEA /* rMAnimation.swift */; };
+		B6E7D4B61EC2E67F00E4CCEA /* dRDayListVCTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E7D4B51EC2E67F00E4CCEA /* dRDayListVCTableViewCell.swift */; };
+		B6E7D4B81EC2EB9000E4CCEA /* loveOrNotVCTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E7D4B71EC2EB9000E4CCEA /* loveOrNotVCTableViewCell.swift */; };
+		B6E7D4BA1EC2F08200E4CCEA /* dRDayDetailVCTableViewCellMeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E7D4B91EC2F08200E4CCEA /* dRDayDetailVCTableViewCellMeal.swift */; };
+		B6E7D4BE1EC2F10C00E4CCEA /* dRDayDetailVCTableViewCellAppraise.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E7D4BD1EC2F10C00E4CCEA /* dRDayDetailVCTableViewCellAppraise.swift */; };
+		B6E7D4C01EC2F12400E4CCEA /* dRDayDetailVCTableViewCellTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E7D4BF1EC2F12400E4CCEA /* dRDayDetailVCTableViewCellTextView.swift */; };
 		B6F064AA1EAD925400B38462 /* loveOrNotResturantInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F064A91EAD925400B38462 /* loveOrNotResturantInformation.swift */; };
 		B6F064AC1EADE7F300B38462 /* postData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F064AB1EADE7F300B38462 /* postData.swift */; };
 		B6F064E81EB08CE600B38462 /* EnterAndDownloadPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F064E71EB08CE600B38462 /* EnterAndDownloadPage.swift */; };
@@ -75,6 +82,13 @@
 		90AEE6DD08317F093C638DA3 /* Pods-sinopacFinalDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sinopacFinalDemoUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-sinopacFinalDemoUITests/Pods-sinopacFinalDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
 		936C0A50182686F604C73882 /* Pods-sinopacFinalDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sinopacFinalDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-sinopacFinalDemo/Pods-sinopacFinalDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		B6754C781EA75A4C00318629 /* rMGoogleMapMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = rMGoogleMapMain.swift; sourceTree = "<group>"; };
+		B6E7D4B11EC04DA800E4CCEA /* rMDetailInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = rMDetailInformation.swift; sourceTree = "<group>"; };
+		B6E7D4B31EC0560D00E4CCEA /* rMAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = rMAnimation.swift; sourceTree = "<group>"; };
+		B6E7D4B51EC2E67F00E4CCEA /* dRDayListVCTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dRDayListVCTableViewCell.swift; sourceTree = "<group>"; };
+		B6E7D4B71EC2EB9000E4CCEA /* loveOrNotVCTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loveOrNotVCTableViewCell.swift; sourceTree = "<group>"; };
+		B6E7D4B91EC2F08200E4CCEA /* dRDayDetailVCTableViewCellMeal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dRDayDetailVCTableViewCellMeal.swift; sourceTree = "<group>"; };
+		B6E7D4BD1EC2F10C00E4CCEA /* dRDayDetailVCTableViewCellAppraise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dRDayDetailVCTableViewCellAppraise.swift; sourceTree = "<group>"; };
+		B6E7D4BF1EC2F12400E4CCEA /* dRDayDetailVCTableViewCellTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dRDayDetailVCTableViewCellTextView.swift; sourceTree = "<group>"; };
 		B6F064A91EAD925400B38462 /* loveOrNotResturantInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loveOrNotResturantInformation.swift; sourceTree = "<group>"; };
 		B6F064AB1EADE7F300B38462 /* postData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = postData.swift; sourceTree = "<group>"; };
 		B6F064E71EB08CE600B38462 /* EnterAndDownloadPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterAndDownloadPage.swift; sourceTree = "<group>"; };
@@ -174,8 +188,35 @@
 			isa = PBXGroup;
 			children = (
 				B6754C781EA75A4C00318629 /* rMGoogleMapMain.swift */,
+				B6E7D4B11EC04DA800E4CCEA /* rMDetailInformation.swift */,
+				B6E7D4B31EC0560D00E4CCEA /* rMAnimation.swift */,
 			);
 			name = resturantMap;
+			sourceTree = "<group>";
+		};
+		B6E7D4BB1EC2F08B00E4CCEA /* dayList */ = {
+			isa = PBXGroup;
+			children = (
+				B6F6377B1E8B86F700014963 /* dRDayListPopViewTableViewCollectionCustomCell.swift */,
+				B6F6377C1E8B86F700014963 /* dRDayListPopViewTableViewCollectionCustomCell.xib */,
+				B6F6377F1E8B878C00014963 /* dRDayListPopViewTableViewCustomCell.swift */,
+				B6F637801E8B878C00014963 /* dRDayListPopViewTableViewCustomCell.xib */,
+				B6F6376C1E88F3D000014963 /* popView.swift */,
+				B6E7D4B51EC2E67F00E4CCEA /* dRDayListVCTableViewCell.swift */,
+				B6F637571E824E9600014963 /* dRDayListVC.swift */,
+			);
+			name = dayList;
+			sourceTree = "<group>";
+		};
+		B6E7D4BC1EC2F0B700E4CCEA /* dayDetail */ = {
+			isa = PBXGroup;
+			children = (
+				B6F637551E824E4D00014963 /* dRDayDetailVC.swift */,
+				B6E7D4B91EC2F08200E4CCEA /* dRDayDetailVCTableViewCellMeal.swift */,
+				B6E7D4BD1EC2F10C00E4CCEA /* dRDayDetailVCTableViewCellAppraise.swift */,
+				B6E7D4BF1EC2F12400E4CCEA /* dRDayDetailVCTableViewCellTextView.swift */,
+			);
+			name = dayDetail;
 			sourceTree = "<group>";
 		};
 		B6F6371A1E824CFC00014963 = {
@@ -243,15 +284,10 @@
 		B6F637541E824DC300014963 /* dairyRecord */ = {
 			isa = PBXGroup;
 			children = (
-				B6F637551E824E4D00014963 /* dRDayDetailVC.swift */,
-				B6F637571E824E9600014963 /* dRDayListVC.swift */,
-				B6F6376C1E88F3D000014963 /* popView.swift */,
+				B6E7D4BC1EC2F0B700E4CCEA /* dayDetail */,
+				B6E7D4BB1EC2F08B00E4CCEA /* dayList */,
 				B6F637731E8A366600014963 /* dRDayListTableViewCell.swift */,
 				B6F637741E8A366600014963 /* dRDayListTableViewCell.xib */,
-				B6F6377B1E8B86F700014963 /* dRDayListPopViewTableViewCollectionCustomCell.swift */,
-				B6F6377C1E8B86F700014963 /* dRDayListPopViewTableViewCollectionCustomCell.xib */,
-				B6F6377F1E8B878C00014963 /* dRDayListPopViewTableViewCustomCell.swift */,
-				B6F637801E8B878C00014963 /* dRDayListPopViewTableViewCustomCell.xib */,
 			);
 			name = dairyRecord;
 			sourceTree = "<group>";
@@ -279,6 +315,7 @@
 				B6F1D31D1E9F5240008DA8BA /* loveOrNotResturantDetail.swift */,
 				B6FA60911EA3795100D204FE /* CustomPresentAnimationController.swift */,
 				B6F064A91EAD925400B38462 /* loveOrNotResturantInformation.swift */,
+				B6E7D4B71EC2EB9000E4CCEA /* loveOrNotVCTableViewCell.swift */,
 			);
 			name = loveOrNot;
 			sourceTree = "<group>";
@@ -612,27 +649,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6E7D4C01EC2F12400E4CCEA /* dRDayDetailVCTableViewCellTextView.swift in Sources */,
+				B6E7D4B41EC0560D00E4CCEA /* rMAnimation.swift in Sources */,
 				B6F064AA1EAD925400B38462 /* loveOrNotResturantInformation.swift in Sources */,
 				B6F637811E8B878C00014963 /* dRDayListPopViewTableViewCustomCell.swift in Sources */,
 				B6F637561E824E4D00014963 /* dRDayDetailVC.swift in Sources */,
 				B6F1D31E1E9F5240008DA8BA /* loveOrNotResturantDetail.swift in Sources */,
+				B6E7D4B21EC04DA800E4CCEA /* rMDetailInformation.swift in Sources */,
 				B6F6378F1E8BA18C00014963 /* loveOrNotTableViewCellTableViewCell.swift in Sources */,
 				B6F064AC1EADE7F300B38462 /* postData.swift in Sources */,
 				B6F637701E89050900014963 /* rRRandomMain.swift in Sources */,
 				B6F064E81EB08CE600B38462 /* EnterAndDownloadPage.swift in Sources */,
 				B6FA60921EA3795200D204FE /* CustomPresentAnimationController.swift in Sources */,
 				B6F637751E8A366600014963 /* dRDayListTableViewCell.swift in Sources */,
+				B6E7D4BE1EC2F10C00E4CCEA /* dRDayDetailVCTableViewCellAppraise.swift in Sources */,
 				B6F637651E83A28A00014963 /* mainView.swift in Sources */,
 				B6F637721E890B4000014963 /* rRFoodMap.swift in Sources */,
 				B6F6376D1E88F3D000014963 /* popView.swift in Sources */,
 				B6F6378B1E8BA16700014963 /* loveOrNotTableVIiewCell.swift in Sources */,
 				B6F637271E824CFE00014963 /* AppDelegate.swift in Sources */,
+				B6E7D4BA1EC2F08200E4CCEA /* dRDayDetailVCTableViewCellMeal.swift in Sources */,
 				B6FFEA261E94F2B600E5452E /* Item.swift in Sources */,
 				B6FFEA361E9E248D00E5452E /* loveOrNotTableViewResturantCell.swift in Sources */,
 				B6FFEA331E9CCFA200E5452E /* TestUrl.swift in Sources */,
+				B6E7D4B81EC2EB9000E4CCEA /* loveOrNotVCTableViewCell.swift in Sources */,
 				B6F6377D1E8B86F700014963 /* dRDayListPopViewTableViewCollectionCustomCell.swift in Sources */,
 				B6F637581E824E9600014963 /* dRDayListVC.swift in Sources */,
 				B6F6375B1E82519C00014963 /* storyboardStruct.swift in Sources */,
+				B6E7D4B61EC2E67F00E4CCEA /* dRDayListVCTableViewCell.swift in Sources */,
 				B6F6375E1E8269FE00014963 /* loveOrNot.swift in Sources */,
 				B6F637921E92738800014963 /* popViewConditionView.swift in Sources */,
 				B6F637601E826E4E00014963 /* loveOrNotBlackListVC.swift in Sources */,

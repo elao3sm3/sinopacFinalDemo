@@ -14,12 +14,24 @@ class dRDayDetailVC: UIViewController {
     
     var dataArray : [String] = ["餐廳","日期","餐點","評價","評論"]
     var dataRecord: [String?] = ["","","","","",""]
-    var base64pic : String?
     var getValueFromUpperView: String?
     var getPageFromUpperView: String?
     
+    var userAppraise: String? = "普通"
+    
+    var base64pic : String?
+    var imageArray: [String] = []
+    var pictureString: String?
+    var decodedData:NSData?
+    
+    var collectionViewCanEdit: Bool = false
+    
+    var stay: Bool = true
+    
     @IBOutlet weak var dRDayDetailTableView: UITableView!
-    @IBOutlet weak var dRDayDetailImageView: UIImageView!
+    @IBOutlet weak var dRDayDetailImage: UIImageView!
+    
+    @IBOutlet weak var dRDayDetailCollectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,9 +56,10 @@ class dRDayDetailVC: UIViewController {
             if let mydb = db{
                 print("asd"+(self.getValueFromUpperView!))
                 let statement = mydb.fetch(tableName: "DiaryRecord", cond: "DR_tableID = '\(((self.getValueFromUpperView!)))'", order: nil)
-                
+                print("self.getValueFromUpperView!")
                 if sqlite3_step(statement) == SQLITE_ROW{
-                    
+                    print("self.getValueFromUpperView!")
+
                     if let count = sqlite3_column_text(statement, 0){
                         var a:String? = String(cString: count)
                         print(a!)
@@ -64,11 +77,13 @@ class dRDayDetailVC: UIViewController {
                     }
                     if let meal = sqlite3_column_text(statement, 6){
                         var a:String? = String(cString: meal)
-                        print(a!)
+                        
                         if a == nil{
+                            print("asdasdasdadsadad"+a!)
                             a = "尚未輸入餐點"
                             dataRecord[3] = a!
                         }else{
+                            print(a!)
                             dataRecord[3] = a!
                         }
                     }
@@ -95,58 +110,187 @@ class dRDayDetailVC: UIViewController {
                     
                 }
                 sqlite3_finalize(statement)
+                
+                 let statement1 = mydb.fetch(tableName: "ResturantPicture", cond: "RP_tableID = '\(((self.getValueFromUpperView!)))'", order: nil)
+                
+                if sqlite3_step(statement1) == SQLITE_ROW{
+                    
+                    if let picture1 = sqlite3_column_text(statement1, 2){
+                        var a:String? = String(cString: picture1)
+                        if a != nil{
+                            imageArray.append(a!)
+                        }
+                    }
+                    if let picture1 = sqlite3_column_text(statement1, 3){
+                        var a:String? = String(cString: picture1)
+                        if a != nil{
+                            imageArray.append(a!)
+                        }
+                    }
+                    if let picture1 = sqlite3_column_text(statement1, 4){
+                        var a:String? = String(cString: picture1)
+                        if a != nil{
+                            imageArray.append(a!)
+                        }
+                    }
+                    if let picture1 = sqlite3_column_text(statement1, 5){
+                        var a:String? = String(cString: picture1)
+                        if a != nil{
+                            imageArray.append(a!)
+                        }
+                    }
+                    if let picture1 = sqlite3_column_text(statement1, 6){
+                        var a:String? = String(cString: picture1)
+                        if a != nil{
+                            imageArray.append(a!)
+                        }
+                    }
+                    if let picture1 = sqlite3_column_text(statement1, 7){
+                        var a:String? = String(cString: picture1)
+                        if a != nil{
+                            imageArray.append(a!)
+                        }
+                    }
+                    if let picture1 = sqlite3_column_text(statement1, 8){
+                        var a:String? = String(cString: picture1)
+                        if a != nil{
+                            imageArray.append(a!)
+                        }
+                    }
+                    if let picture1 = sqlite3_column_text(statement1, 9){
+                        var a:String? = String(cString: picture1)
+                        if a != nil{
+                            imageArray.append(a!)
+                        }
+                    }
+                    if let picture1 = sqlite3_column_text(statement1, 10){
+                        var a:String? = String(cString: picture1)
+                        if a != nil{
+                            imageArray.append(a!)
+                        }
+                    }
+                }
+                sqlite3_finalize(statement1)
             }
 
         dRDayDetailTableView.dataSource = self
         dRDayDetailTableView.delegate = self
     
+        dRDayDetailCollectionView.dataSource = self
+        dRDayDetailCollectionView.delegate = self
     }
 
     override func viewDidAppear(_ animated: Bool) {
         
+        stay = false
         dRDayDetailTableView.reloadData()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         
-        self.navigationController?.popToRootViewController(animated: true)
+        if stay == false{
+            self.navigationController?.popToRootViewController(animated: true)
+            imageArray = []
+            collectionViewCanEdit = false
+        }
+        collectionViewCanEdit = false
     }
 
     func navigationComplete(){
+       
+        let cell = dRDayDetailTableView.cellForRow(at: IndexPath(row: 2, section: 0)) as! dRDayDetailVCTableViewCellMeal
+        let textField = cell.dRDayDetailVCTableViewCellMealTextField.text
         
-       self.navigationController?.popViewController(animated: true
-        )
+        let cell1 = dRDayDetailTableView.cellForRow(at: IndexPath(row: 4,section: 0)) as! dRDayDetailVCTableViewCellTextView
+        let textView = cell1.dRDayDetailVCTableViewCellAppraiseTextView.text
+        
+//        let imageCount = self.imageArray.count
+//        if imageCount < 10{
+//            imageArray[imageCount+1] = [""]
+//        }
+        
+        if let mydb = db{
+        
+            mydb.update(tableName: "DiaryRecord", cond: "DR_tableID = '\(((self.getValueFromUpperView!)))'", rowInfo: ["DR_meal":"'\(textField!)'","DR_preference":"'\(userAppraise!)'","DR_comment":"'\(textView!)'"])
+            
+//            mydb.update(tableName: "ResturantPicture", cond: "RP_tableID = '\(((self.getValueFromUpperView!)))'", rowInfo: ["RP_picture1":"'\(self.imageArray[0])'","RP_picture2":"'\(self.imageArray[1])'","RP_picture3":"'\(self.imageArray[2])'","RP_picture4":"'\(self.imageArray[3])'","RP_picture5":"'\(self.imageArray[4])'","RP_picture6":"'\(self.imageArray[5])'","RP_picture7":"'\(self.imageArray[6])'","RP_picture8":"'\(self.imageArray[7])'","RP_picture9":"'\(self.imageArray[8])'",])
+        }
+        
+        collectionViewCanEdit = false
+        self.imageArray = []
+        
+        self.navigationController?.popViewController(animated: true)
     }
+    // MARK: - 允許編輯collection view
     @IBAction func addPicture(_ sender: UIButton) {
         
-        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
-            let picker = UIImagePickerController()
-            picker.delegate = self
-            picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
-            
-            self.present(picker, animated: true, completion: {
-                () -> Void in
-            })
-        }else{
-            print("讀取相冊失敗")
-        }
+        collectionViewCanEdit = true
+        
     }
     
+    // MARK: - 增加照片的方式
     @IBAction func takePicture(_ sender: Any) {
         
-        if UIImagePickerController.isSourceTypeAvailable(.camera){
-            let picker = UIImagePickerController()
-            picker.delegate = self
-            picker.sourceType = UIImagePickerControllerSourceType.camera
-            picker.allowsEditing = true
+        let alert = UIAlertController(title: "新增圖片", message: "", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(
+            title: "取消",
+            style: .cancel,
+            handler: nil)
+        alert.addAction(cancelAction)
+        
+        let takePictureButton = UIAlertAction(title: "拍照", style: .default, handler: {
+            (action: UIAlertAction!) -> Void in
             
-            self.present(picker, animated: true, completion: {
-                () -> Void in
-            })
-        }else{
-            print("找不到相機")
-        }
+            self.stay = true
+            
+            if UIImagePickerController.isSourceTypeAvailable(.camera){
+                let picker = UIImagePickerController()
+                picker.delegate = self
+                picker.sourceType = UIImagePickerControllerSourceType.camera
+                picker.allowsEditing = true
+                
+                self.present(picker, animated: true, completion: {
+                    () -> Void in
+                })
+            }else{
+                print("找不到相機")
+            }
+            
+        })
+        alert.addAction(takePictureButton)
+        
+        let addPictureButton = UIAlertAction(title: "相冊", style: .default, handler: {
+            (action: UIAlertAction!) -> Void in
+            
+            self.stay = true
+            
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+                let picker = UIImagePickerController()
+                picker.delegate = self
+                picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+                
+                self.present(picker, animated: true, completion: {
+                    () -> Void in
+                })
+            }else{
+                print("讀取相冊失敗")
+            }
+            
+        })
+        alert.addAction(addPictureButton)
+        
+        self.present(alert,animated: true,completion: nil)
+        
     }
+    
+    func appraiseChange(sender: UISegmentedControl){
+        
+        print(sender.titleForSegment(at: sender.selectedSegmentIndex)!)
+        
+        userAppraise = sender.titleForSegment(at: sender.selectedSegmentIndex)!
+    }
+    
 }
 // MARK: - UITableViewDataSource
 extension dRDayDetailVC : UITableViewDataSource{
@@ -162,85 +306,50 @@ extension dRDayDetailVC : UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "dRDayDetailTableViewCell", for: indexPath)
-        
-        let label = UILabel(frame : .null)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "\(dataArray[indexPath.row])"
-        cell.contentView.addSubview(label)
-        
-        let labelName = UILabel()
-        labelName.translatesAutoresizingMaskIntoConstraints = false
-        
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        
-        let textView = UITextView()
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        
-        cell.layer.masksToBounds = true
-        
-        let views = ["label":label,"labelName":labelName,"textField":textField,"textView":textView]
-        
         switch indexPath.row {
-            
         case 0:
-            labelName.text = dataRecord[1]
+            let cell = tableView.dequeueReusableCell(withIdentifier: "dRDayDetailTableViewCell", for: indexPath)
             
-            cell.contentView.addSubview(labelName)
+            let restaurantName = cell.viewWithTag(1) as! UILabel
+            restaurantName.text = dataArray[0]
             
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[label(100)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[label(20)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[label(100)]-10-[labelName]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[labelName(20)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+            let restaurantNameValue = cell.viewWithTag(2) as! UILabel
+            restaurantNameValue.text = dataRecord[1]
             
             return cell
-            
         case 1:
-            labelName.text = dataRecord[2]
             
-            cell.contentView.addSubview(labelName)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "dRDayDetailTableViewCell", for: indexPath)
             
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[label(100)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-11-[label(20)]|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[label(100)]-10-[labelName]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[labelName(20)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+            let restaurantName = cell.viewWithTag(1) as! UILabel
+            restaurantName.text = dataArray[1]
             
-
+            let restaurantNameValue = cell.viewWithTag(2) as! UILabel
+            restaurantNameValue.text = dataRecord[2]
+            
             return cell
-            
         case 2:
-            textField.placeholder = dataRecord[3]
-            cell.contentView.addSubview(textField)
             
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[label(100)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-11-[label(20)]|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+            let cell = tableView.dequeueReusableCell(withIdentifier: "dRDayDetailTableViewCellMeal", for: indexPath) as! dRDayDetailVCTableViewCellMeal
             
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[label(100)]-10-[textField]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-11-[textField(20)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+            cell.dRDayDetailVCTableViewCellMealLabel.text = dataArray[2]
+            cell.dRDayDetailVCTableViewCellMealTextField.text = dataRecord[3]
             
             return cell
-            
         case 3:
-            labelName.text = dataRecord[4]
             
-            cell.contentView.addSubview(labelName)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "dRDayDetailTableViewCellAppraise", for: indexPath) as! dRDayDetailVCTableViewCellAppraise
             
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[label(100)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-11-[label(20)]|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[label(100)]-10-[labelName]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[labelName(20)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+            cell.dRDayDetailVCTableViewCellAppraiseLabel.text = dataArray[3]
+            cell.dRDayDetailVCTableViewCellAppraiseSegment.addTarget(self, action: #selector(appraiseChange), for: .valueChanged)
             
             return cell
-            
         default:
-            textView.text = dataRecord[5]
-            cell.contentView.addSubview(textView)
             
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[label(100)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[label(20)]|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[label(100)]-10-[textView]-20-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[textView]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+            let cell = tableView.dequeueReusableCell(withIdentifier: "dRDayDetailTableViewCellTextView", for: indexPath) as! dRDayDetailVCTableViewCellTextView
+            
+            cell.dRDayDetailVCTableViewCellTextViewLabel.text = dataArray[4]
+            cell.dRDayDetailVCTableViewCellAppraiseTextView.text = dataRecord[5]
             
             return cell
         }
@@ -248,10 +357,70 @@ extension dRDayDetailVC : UITableViewDataSource{
 }
 // MARK: - UITableViewDelegate
 extension dRDayDetailVC : UITableViewDelegate{
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
 }
 // MARK: - UINavigationControllerDelegate
 extension dRDayDetailVC: UINavigationControllerDelegate {
+
+}
+// MARK: - UICollectionViewDataSource
+extension dRDayDetailVC: UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return imageArray.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! UICollectionViewCell
+        
+        var image = cell.viewWithTag(1) as! UIImageView
+        
+        self.decodedData = NSData(base64Encoded: self.imageArray[indexPath.row], options:  NSData.Base64DecodingOptions(rawValue: 0))
+        
+        if decodedData != nil{
+            let decodedimage = UIImage(data: decodedData! as Data)
+            image.image = decodedimage
+        }
+        
+        return cell
+    }
+
+}
+// MARK: - UICollectionViewDelegate
+extension dRDayDetailVC: UICollectionViewDelegate{
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionViewCanEdit == true{
+            
+            let alertView = UIAlertController(title: "確定要刪除？", message: "", preferredStyle: .alert)
+            
+            let cancelAction = UIAlertAction(
+                title: "取消",
+                style: .cancel,
+                handler: nil)
+            alertView.addAction(cancelAction)
+            
+            let okAction = UIAlertAction(
+                title: "確認",
+                style: .default,
+                handler: {
+                    (action: UIAlertAction!) -> Void in
+                    
+                    print("你刪除了\(self.imageArray[indexPath.row])")
+                    self.imageArray.remove(at: indexPath.row)
+                    //self.collectionViewEdit = false
+                    self.dRDayDetailCollectionView.reloadData()
+                    
+            })
+            alertView.addAction(okAction)
+            
+            self.present(
+                alertView,
+                animated: true,
+                completion: nil)
+            
+        }
+    }
 
 }
 // MARK: - UIImagePickerControllerDelegate
@@ -259,13 +428,17 @@ extension dRDayDetailVC : UIImagePickerControllerDelegate{
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         print(info)
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        dRDayDetailImageView.image = image
+        //dRDayDetailImageView.image = image
         picker.dismiss(animated: true, completion: {
             () -> Void in
         })
         let imageData = UIImageJPEGRepresentation(image, 0.5)
         let stringBase64 = imageData?.base64EncodedString(options:NSData.Base64EncodingOptions(rawValue:0))
         base64pic = stringBase64
+        
+        imageArray.append(base64pic!)
+        
+        dRDayDetailCollectionView.reloadData()
     }
 }
 

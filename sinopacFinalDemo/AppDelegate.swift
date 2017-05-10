@@ -35,13 +35,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         db?.createTable(tableName: "ResturantTypeAndPictureGet", columnsInfo: ["RTPG_tableID VARCHAR (100)","RTPG_name VARCHAR (100)","RTPG_type1 VARCHAR (100)","RTPG_type2 VARCHAR (100)","RTPG_type3 VARCHAR (100)","RTPG_type4 VARCHAR (100)","RTPG_type5 VARCHAR (100)","RTPG_picture1 VARCHAR (10000)","RTPG_picture2 VARCHAR (10000)","RTPG_picture3 VARCHAR (10000)","RTPG_picture4 VARCHAR (10000)","RTPG_picture5 VARCHAR (10000)","RTPG_picture6 VARCHAR (10000)","RTPG_picture7 VARCHAR (10000)","RTPG_picture8 VARCHAR (10000)","RTPG_picture9 VARCHAR (10000)",])
         
+        db?.createTable(tableName: "ResturantComment", columnsInfo: ["",""])
+        
         db?.createTable(tableName: "RestaurantName", columnsInfo: ["RN_restaurantName VARCHAR (100)"])
         
         db!.createTable(tableName: "GoalTime", columnsInfo: ["GT_goaltime VARCHAR (100)"])
          
         db!.createTable(tableName: "DiaryRecord", columnsInfo: ["DR_tableID VARCHAR (100)","DR_name VARCHAR (100)","DR_photo VARCHAR (100)","DR_style VARCHAR (100)","DR_price VARCHAR (100)","DR_date VARCHAR (100)","DR_meal VARCHAR (100)","DR_preference VARCHAR (100)","DR_comment VARCHAR (100)"])
          
-        db!.createTable(tableName: "ResturantPicture", columnsInfo: ["RP_resturantName VARCHAR (100)","RP_picture1 VARCHAR (100000000000000) ","RP_picture2 VARCHAR (100000000000000) ","RP_picture3 VARCHAR (100000000000000) ","RP_picture4 VARCHAR (100000000000000) ","RP_picture5 VARCHAR (100000000000000) ","RP_picture6 VARCHAR (100000000000000) ","RP_picture7 VARCHAR (100000000000000) ","RP_picture8 VARCHAR (100000000000000) ","RP_picture9 VARCHAR (100000000000000) "])
+        db!.createTable(tableName: "ResturantPicture", columnsInfo: ["RP_tableID VARCHAR (100)","RP_resturantName VARCHAR (100)","RP_picture1 VARCHAR (100000000000000) ","RP_picture2 VARCHAR (100000000000000) ","RP_picture3 VARCHAR (100000000000000) ","RP_picture4 VARCHAR (100000000000000) ","RP_picture5 VARCHAR (100000000000000) ","RP_picture6 VARCHAR (100000000000000) ","RP_picture7 VARCHAR (100000000000000) ","RP_picture8 VARCHAR (100000000000000) ","RP_picture9 VARCHAR (100000000000000) "])
          
         db!.createTable(tableName: "ResturantInformation", columnsInfo: ["RI_tableID VARCHAR (100)","RI_id VARCHAR (100)","RI_name VARCHAR (100)","RI_address VARCHAR (100)","RI_phone VARCHAR (100)","RI_latitude VARCHAR (100)","RI_longitude VARCHAR (100)","RI_price VARCHAR (100)","RI_opentime VARCHAR (100)","RI_closetime VARCHAR (100)","RI_photo VARCHAR (100)","RI_style VARCHAR (100)","RI_preference VARCHAR (100)"])
         

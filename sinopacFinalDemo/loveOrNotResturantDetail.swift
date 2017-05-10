@@ -43,7 +43,7 @@ class loveOrNotResturantDetail: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         if let mydb = db{
-            let statement = mydb.fetch(tableName: "diaryRecord", cond: nil/*"DR_name = "*/, order: nil)
+            let statement = mydb.fetch(tableName: "diaryRecord", cond: "DR_name = '\(self.getValueFromUpperView!)'", order: nil)
             if sqlite3_step(statement) == SQLITE_ROW{
                 if let count = sqlite3_column_text(statement, 0){
                     var a:String? = String(cString: count)

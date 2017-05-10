@@ -29,6 +29,8 @@ class dRDayListVC: UIViewController {
         didSet  {dRDayListTableView.reloadData()}
     }
     
+    var label: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -67,32 +69,32 @@ class dRDayListVC: UIViewController {
             while sqlite3_step(statement) == SQLITE_ROW{
                 if let count = sqlite3_column_text(statement, 0){
                     var a:String? = String(cString: count)
-                    print(a)
+                    
                     resturantCount.append(a!)
                 }
                 if let name = sqlite3_column_text(statement, 1){
                     var a:String? = String(cString: name)
-                    print(a)
+                    
                     resturantName.append(a!)
                 }
                 if let photo = sqlite3_column_text(statement, 2){
                     var a:String? = String(cString: photo)
-                    print(a)
+                    
                     resturantPhoto.append(a!)
                 }
                 if let style = sqlite3_column_text(statement, 3){
                     var a:String? = String(cString: style)
-                    print(a)
+                    
                     resturantStyle.append(a!)
                 }
                 if let price = sqlite3_column_text(statement, 4){
                     var a:String? = String(cString: price)
-                    print(a)
+                    
                     resturantPrice.append(a!)
                 }
                 if let date = sqlite3_column_text(statement, 5){
                     var a:String? = String(cString: date)
-                    print(a)
+                    
                     resturantDate.append(a!)
                 }
                 
@@ -104,7 +106,6 @@ class dRDayListVC: UIViewController {
                 if let photo = sqlite3_column_text(statement1, 8){
                     var a:String? = String(cString: photo)
                     
-                    print("asdasdasd"+a!)
                     testPhoto.append(a!)
                 }
             }
@@ -191,36 +192,36 @@ extension dRDayListVC : UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "dRDayListTableViewCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "dRDayListTableViewCell", for: indexPath) as! dRDayListVCTableViewCell
         
         cell.layer.borderColor = UIColor.orange.cgColor
         cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 8
         
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        cell.contentView.addSubview(label)
-        
-        let subLabel = UILabel()
-        subLabel.translatesAutoresizingMaskIntoConstraints = false
-        cell.contentView.addSubview(subLabel)
-        
-        var image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        cell.contentView.addSubview(image)
-        
-        let views = ["label":label,"subLabel":subLabel,"image":image] as [String : Any]
-        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[image(80)]", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-[label]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[label(50)]-0-[subLabel(30)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-[subLabel]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[label(50)]-0-[subLabel(30)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+//        label = UILabel()
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        cell.contentView.addSubview(label)
+//        
+//        let subLabel = UILabel()
+//        subLabel.translatesAutoresizingMaskIntoConstraints = false
+//        cell.contentView.addSubview(subLabel)
+//        
+//        var image = UIImageView()
+//        image.translatesAutoresizingMaskIntoConstraints = false
+//        cell.contentView.addSubview(image)
+//        
+//        let views = ["label":label,"subLabel":subLabel,"image":image] as [String : Any]
+//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[image(80)]", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-[label]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[label(50)]-0-[subLabel(30)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-[subLabel]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[label(50)]-0-[subLabel(30)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
         
         if searchController.isActive{
-            label.text = "老吳滷肉飯"
-            subLabel.text = "\(filtered[indexPath.row])"
-            image.image = UIImage(named: "/Users/wei/Desktop/sinopacFinalDemo/圖片/test.png")
+//            label.text = "老吳滷肉飯"
+//            subLabel.text = "\(filtered[indexPath.row])"
+//            image.image = UIImage(named: "/Users/wei/Desktop/sinopacFinalDemo/圖片/test.png")
             return cell
         }else{
             //let url = URL(string: "\((resturantPhoto[indexPath.row])!)")
@@ -229,9 +230,13 @@ extension dRDayListVC : UITableViewDataSource{
             let url = URL(string: "\((testPhoto[0])!)")
             let data = try!Data(contentsOf: url!)
             
-            label.text = resturantName[indexPath.row]
-            subLabel.text = resturantStyle[indexPath.row]
-            image.image = UIImage(data: data)
+            cell.dRDayListVCTableViewCellLabel.text = resturantName[indexPath.row]
+            cell.dRDayListVCTableViewCellSubLabel.text = resturantStyle[indexPath.row]
+            cell.dRDayListVCTableViewCellImage.image = UIImage(data: data)
+            
+            //label.text = resturantName[indexPath.row]
+            //subLabel.text = resturantStyle[indexPath.row]
+            //image.image = UIImage(data: data)
             return cell
         }
     }

@@ -54,13 +54,20 @@ class loveOrNot: UIViewController {
                     var a:String? = String(cString: name)
                     resturantName.append(a!)
                 }
-                if let photo = sqlite3_column_text(statement, 10){
-                    var a: String? = String(cString: photo)
-                    resturantPhoto.append(a!)
-                }
                 print("拿資料庫資料囉")
             }
             sqlite3_finalize(statement)
+            
+            let statement1 = mydb.fetch(tableName: "ResturantTypeAndPictureGet", cond: nil, order: nil)
+            if sqlite3_step(statement1) == SQLITE_ROW{
+                if let photo = sqlite3_column_text(statement1, 8){
+                    var a:String? = String(cString: photo)
+                    
+                    print("asdasdasd"+a!)
+                    resturantPhoto.append(a!)
+                }
+            }
+            sqlite3_finalize(statement1)
         }
 
         if resturantCount.count ==  0{
@@ -102,42 +109,47 @@ extension loveOrNot : UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "loveOrNotTableViewCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "loveOrNotTableViewCell", for: indexPath) as! loveOrNotVCTableViewCell
         
         cell.layer.borderColor = UIColor.orange.cgColor
         cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 8
         
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        cell.contentView.addSubview(label)
-        
-        let sublabel = UILabel()
-        sublabel.translatesAutoresizingMaskIntoConstraints = false
-        cell.contentView.addSubview(sublabel)
-        
-        var image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        cell.contentView.addSubview(image)
-        
-        let views = ["label":label,"subLabel":sublabel,"image":image] as [String : Any]
-        
-        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[image(80)]", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-[label]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[label(50)]-0-[subLabel(30)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-[subLabel]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[label(50)]-0-[subLabel(30)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-        print("1 3")
-        print(resturantPhoto[indexPath.row])
-        let url = URL(string: "\((resturantPhoto[indexPath.row])!)")
-       // let data = try!Data(contentsOf: url!)
+//        let label = UILabel()
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        cell.contentView.addSubview(label)
+//        
+//        let sublabel = UILabel()
+//        sublabel.translatesAutoresizingMaskIntoConstraints = false
+//        cell.contentView.addSubview(sublabel)
+//        
+//        var image = UIImageView()
+//        image.translatesAutoresizingMaskIntoConstraints = false
+//        cell.contentView.addSubview(image)
+//        
+//        let views = ["label":label,"subLabel":sublabel,"image":image] as [String : Any]
+//        
+//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[image(80)]", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-[label]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[label(50)]-0-[subLabel(30)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-[subLabel]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[label(50)]-0-[subLabel(30)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
+//        print("1 3")
+        print(resturantPhoto[0])
+        let url = URL(string: "\((resturantPhoto[0])!)")
+        let data = try!Data(contentsOf: url!)
         print("1 4")
-        print(resturantName[indexPath.row])
-        label.text = resturantName[indexPath.row]
-        sublabel.text = "來店次數：\((resturantCount[indexPath.row])!) 次"
-       // image.image = UIImage(data: data)
+//        print(resturantName[indexPath.row])
+//        label.text = resturantName[indexPath.row]
+//        sublabel.text = "來店次數：\((resturantCount[indexPath.row])!) 次"
+//        image.image = UIImage(data: data)
         print("1 4")
+        
+            cell.loveOrNotVCTableViewCellLabel.text = resturantName[indexPath.row]
+        cell.loveOrNotVCTableViewCellSubLabel.text = "來店次數：\((resturantCount[indexPath.row])!) 次"
+        cell.loveOrNotVCTableViewCellImage.image = UIImage(data: data)
+        
         return cell
     }
 }
