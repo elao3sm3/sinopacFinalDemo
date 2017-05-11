@@ -18,7 +18,7 @@ class rRRandomMain: UIViewController {
     let now = NSDate()
     var goalTime: Double?
     var transferDataArray: [AnyObject] = []
-    var countTime: Int?
+    var countTime: Int = 0
     
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
@@ -155,14 +155,24 @@ class rRRandomMain: UIViewController {
         let queue = DispatchQueue(label: "com.rRRandomMain.countdown")
         
         queue.async {
+            
             if self.goalTime != 0{
-                countTime = Int(goalTime! - (timeInternal as Double))
-                print(self.countTime!)
-                self.rRRandomMainTimeLabel.text = "\(Int(self.countTime!))"
-                self.testTimeNumber = Int(self.countTime!)
                 
-                self.countdowd()
+                self.countTime = Int(self.goalTime! - (timeInternal as Double))
+                print(self.countTime)
+                
+                    self.rRRandomMainTimeLabel.text = "\(Int(self.countTime))"
+                    self.testTimeNumber = Int(self.countTime)
+                
+                    self.countdowd()
+                
+                if self.countTime == 0 || self.countTime < 0{
+                    if let mydb = self.db{
+                        mydb.update(tableName: "GoalTime", cond: nil, rowInfo: ["GT_goaltime":"'0'"])
+                    }
+                }
             }else{
+                
                 self.rRRandomMainTimeLabel.text = "00:00:00"
             }
             
@@ -189,8 +199,8 @@ class rRRandomMain: UIViewController {
     
     // MARK: - 拉霸按鈕
     @IBAction func pullButton(_ sender: UIButton) {
-        print("countdown"+"\(countTime!)")
-        if countTime! == 0{
+        print("countdown"+"\(countTime)")
+        if countTime == 0{
         
         let value = arc4random()%(UInt32)(self.restaurantName.count)
         rRRandomMainPicker.selectRow(Int(value), inComponent: 0, animated: true)
@@ -208,7 +218,7 @@ class rRRandomMain: UIViewController {
         delayQueue.asyncAfter(deadline: .now() + 0.3){
         let alert = UIAlertController(title: "選中的是", message: "\((self.restaurantName[(Int)(value)]))", preferredStyle: .alert)
         
-        let cancelButton = UIAlertAction(title: "取消", style: .cancel, handler:nil)
+            let cancelButton = UIAlertAction(title: "取消", style: .cancel, handler:nil)
         let pushButton = UIAlertAction(title: "確定", style: .default, handler: {
             (action:UIAlertAction!) -> Void in
             
@@ -231,9 +241,16 @@ class rRRandomMain: UIViewController {
         
         self.present(alert,animated: true,completion: nil)
         }
+            let rightNow = NSDate()
+            
         if let mydb = self.db{
             mydb.update(tableName: "GoalTime", cond: nil, rowInfo: ["GT_goaltime":"'\(Double(now.timeIntervalSince1970)+10)'"])
         }
+            
+            let timeInternal: TimeInterval = rightNow.timeIntervalSince1970
+            goalTime = timeInternal + 10
+            
+            //self.viewWillAppear.reloadComponent
        }
     }
     // MARK: - 選擇按鈕
@@ -243,23 +260,40 @@ class rRRandomMain: UIViewController {
     
     // MARK: - 傳遞資料
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if segue.identifier == "goToPopViewConditionView"{
+            
             let popView = segue.destination
+            
+            
             popView.preferredContentSize = CGSize(width: self.view.bounds.width/2, height: self.view.bounds.height/2)
             let con = popView.popoverPresentationController
+            
             if con != nil{
+                
                 con?.delegate = self
             }
         }
     }
     // MARK: - 倒數計時器
     func countdowd(){
+        
         autoTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(countdownMethod), userInfo: nil, repeats: true)
     }
     func countdownMethod(){
+        
         if testTimeNumber != nil{
+            
             testTimeNumber = testTimeNumber! - 1
-            rRRandomMainTimeLabel.text = String(testTimeNumber!)
+            
+            if self.testTimeNumber! >= 0{
+                
+                let hour = self.testTimeNumber! / 3600
+                let minute = testTimeNumber! % 3600 / 60
+                let second = testTimeNumber! % 60
+                
+                rRRandomMainTimeLabel.text = "\(hour) : \(minute) : \(second)"
+            }
         }
     }
     
@@ -274,7 +308,6 @@ class rRRandomMain: UIViewController {
         
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         
-         print("\(restaurantName!)")
         let postString = ["S_name": "\(restaurantName!)"]
         
         let postdata = try!JSONSerialization.data(withJSONObject: postString, options: .prettyPrinted)
@@ -283,16 +316,15 @@ class rRRandomMain: UIViewController {
         
         let task = URLSession.shared.dataTask(with: request){ data, response, error in
             guard let data = data, error == nil else{
+                
                 print("error = \(error)")
                 return
             }
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200{
+                
                 print("error : 請檢查網路")
             }
             let json = try?JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as! [AnyObject]
-            print("獲得店家資訊")
-            print(json!)
-            print((json![0]["S__longitude"])!)
             
             self.transferDataArray = json!
             print(((self.transferDataArray[0]["S__longitude"])!)!)
@@ -307,6 +339,7 @@ class rRRandomMain: UIViewController {
     
     // MARK: - 前往GoogleMap
     func goTorRFoodMap(resturantNameTorRFoodMap: String){
+        
         let goTorRFoodMap = storyboard?.instantiateViewController(withIdentifier: "rRFoodMap") as! rRFoodMap
         
         goTorRFoodMap.getValueFromUpperView = resturantNameTorRFoodMap
@@ -316,7 +349,9 @@ class rRRandomMain: UIViewController {
 }
 // MARK: - CLLocationManagerDelegate
 extension rRRandomMain: CLLocationManagerDelegate{
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
         let location: CLLocation = locations.last!
         
         print("Location:\(locations)")
@@ -325,9 +360,11 @@ extension rRRandomMain: CLLocationManagerDelegate{
         let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 16)
         
         if mapView.isHidden{
+            
             mapView.isHidden = false
             mapView.camera = camera
         }else{
+            
             mapView.animate(to: camera)
         }
         

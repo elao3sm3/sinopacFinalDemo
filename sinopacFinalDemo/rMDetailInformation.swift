@@ -13,7 +13,11 @@ class rMDetailInformation: UIViewController {
     var db : SQLiteConnect?
     
     var getValueFromUpperView: String?
+    var getArrayValueFromUpperView: [String]?
+    var getListValueFromUpperView: [String]? = ["","","",""]
     var dataArray: [String] = []
+    
+    var RI_tableID: [Int] = []
     
     @IBOutlet weak var rMDetailInformationTableView: UITableView!
     
@@ -67,6 +71,18 @@ class rMDetailInformation: UIViewController {
             }
             
             sqlite3_finalize(statement)
+            
+            let statement2 = mydb.fetch(tableName: "DiaryRecord", cond: nil, order: nil)
+            while sqlite3_step(statement2) == SQLITE_ROW{
+                if let tableID = sqlite3_column_text(statement2, 0){
+                    var a: String? = String(cString: tableID)
+                    
+                    self.RI_tableID.append((Int)(a!)!)
+                }else{
+                    self.RI_tableID = []
+                }
+            }
+            sqlite3_finalize(statement2)
         }
 
         rMDetailInformationTableView.dataSource = self
@@ -80,6 +96,19 @@ class rMDetailInformation: UIViewController {
     
     func addToDairyRecord(){
         
+        var tableID = self.RI_tableID.count
+        
+        let now = Date()
+        
+        if let mydb = self.db{
+            mydb.insert(tableName: "ResturantInformation", rowInfo: ["RI_tableID":"'\(String(tableID))'","RI_id":"'\(self.getListValueFromUpperView![0])'","RI_name":"'\(self.getValueFromUpperView!)'","RI_address":"'\(dataArray[0])'","RI_phone":"'\(dataArray[1])'","RI_latitude":"'\(self.getListValueFromUpperView![1])'","RI_longitude":"'\(self.getListValueFromUpperView![2])'","RI_price":"'\(dataArray[2])'","RI_opentime":"'\(dataArray[3])'","RI_closetime":"'\(dataArray[4])'","RI_photo":"'\(self.getListValueFromUpperView![3])'","RI_style":"'\(dataArray[5])'","RI_preference":"'like'"])
+            
+            mydb.insert(tableName: "DiaryRecord", rowInfo: ["DR_tableID":"'\(String(tableID))'","DR_name":"'\(self.getValueFromUpperView!)'","DR_photo":"'\(dataArray[1])'","DR_style":"'\(dataArray[5])'","DR_price":"'\(dataArray[2])'","DR_date":"'\(now)'"])
+            
+            mydb.insert(tableName: "ResturantPicture", rowInfo: ["RP_tableID":"'\(String(tableID))'","RP_resturantName":"'\(self.getValueFromUpperView!)'"])
+        }
+
+        self.navigationController?.popViewController(animated: true)
     }
 }
 extension rMDetailInformation: UITableViewDataSource{
@@ -88,7 +117,14 @@ extension rMDetailInformation: UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        
+        if section == 1{
+            
+            return self.getArrayValueFromUpperView!.count
+        }else{
+        
+            return 5
+        }
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -133,8 +169,8 @@ extension rMDetailInformation: UITableViewDataSource{
                     labelValue.text = "\(dataArray[0])"
             }
         }else{
-            labelKey.text = ""
-            labelValue.text = ""
+            labelKey.text = "\(indexPath.row + 1)."
+            labelValue.text = "\(self.getArrayValueFromUpperView![indexPath.row])"
         }
         
         return cell

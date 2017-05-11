@@ -18,6 +18,10 @@ class rMGoogleMapMain: UIViewController {
     var arrayName: [String] = []
     var arrayLatitude: [String] = []
     var arrayLongitude: [String] = []
+    var arrayImage: [String] = []
+    
+    var selectedComment: [AnyObject]?
+    var arrayComment: [String] = []
     
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
@@ -65,6 +69,17 @@ class rMGoogleMapMain: UIViewController {
         
         // MARK: - Navigation Setting
         navigationController?.title = "美食地圖"
+        
+        // MARK: - Get 評論
+        let url = NSURL(string: "http://10.11.24.95/eatwhat/api/selectComment")
+        
+        let sessionWithConfigure = URLSessionConfiguration.default
+        
+        let session = URLSession(configuration: sessionWithConfigure, delegate: self, delegateQueue: OperationQueue.main)
+        
+        let dataTask = session.downloadTask(with: url! as URL)
+        
+        dataTask.resume()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -84,7 +99,10 @@ class rMGoogleMapMain: UIViewController {
                     let a = String(cString: id)
                     arrayLongitude.append(a)
                 }
-                
+                if let id = sqlite3_column_text(statement, 10){
+                    let a = String(cString: id)
+                    arrayImage.append(a)
+                }
             }
             
             sqlite3_finalize(statement)
@@ -171,11 +189,10 @@ extension rMGoogleMapMain: GMSMapViewDelegate{
         
         for i in 0...(arrayName.count-1){
             if arrayLatitude[i] == restaurantLatitude as String && arrayLongitude[i] == restaurantLongitude as String{
-                print(arrayName[i])
+
                 selectedRestaurant = arrayName[i]
             }
         }
-        print("選中的是："+"\(selectedRestaurant!)")
         
         var markerView = UIView()
         markerView.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
@@ -186,17 +203,6 @@ extension rMGoogleMapMain: GMSMapViewDelegate{
         label.text = "hi"
         markerView.addSubview(label)
         
-//        var view = UIView(frame: CGRect(x: 0, y: 0, width: 150, height: 150))
-//        
-//        let label = UILabel()
-//        //label.translatesAutoresizingMaskIntoConstraints = false
-//        label.text = "\(selectedRestaurant!)"
-//        view.addSubview(label)
-//        
-//        let image = UIImageView()
-//        //image.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(image)
-        
         return markerView
     }
     
@@ -206,22 +212,54 @@ extension rMGoogleMapMain: GMSMapViewDelegate{
         let restaurantLatitude = NSString(format: "%.6f", marker.position.latitude)
         let restaurantLongitude = NSString(format: "%.6f", marker.position.longitude)
         
+        var indexValue: Int?
+        
         for i in 0...(arrayName.count-1){
             if arrayLatitude[i] == restaurantLatitude as String && arrayLongitude[i] == restaurantLongitude as String{
                 print(arrayName[i])
                 selectedRestaurant = arrayName[i]
+                
+                indexValue = i
+                break
             }
         }
+        
         print("選中的是："+"\(selectedRestaurant!)")
+        
+        arrayComment = ((selectedComment![indexValue!]["Comment"])!)! as! [String]
+        print(arrayComment)
         
         let goToRMDetailInformation = storyboard?.instantiateViewController(withIdentifier: "rMDetailInformation") as! rMDetailInformation
         
         goToRMDetailInformation.getValueFromUpperView = selectedRestaurant!
+        goToRMDetailInformation.getArrayValueFromUpperView = arrayComment
+        
+        let a = ((selectedComment![indexValue!]["S_id"])!)!
+        
+        goToRMDetailInformation.getListValueFromUpperView![0] = "\(a)"
+        goToRMDetailInformation.getListValueFromUpperView![1] = arrayLatitude[indexValue!]
+        goToRMDetailInformation.getListValueFromUpperView![2] = arrayLongitude[indexValue!]
+        //goToRMDetailInformation.getListValueFromUpperView![3] = arrayImage[0]
         
         goToRMDetailInformation.modalTransitionStyle = .coverVertical
         goToRMDetailInformation.modalPresentationStyle = .fullScreen
         
         navigationController?.pushViewController(goToRMDetailInformation, animated: true)
+    }
+}
+
+extension rMGoogleMapMain: URLSessionDownloadDelegate{
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+    
+        do{
+            let dataDic = try JSONSerialization.jsonObject(with: NSData(contentsOf: location)! as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! [AnyObject]
+        
+            selectedComment = dataDic
+            
+        }catch{
+            print("Error!")
+            
+        }
     }
 }
 //extension rMGoogleMapMain: UINavigationControllerDelegate{
