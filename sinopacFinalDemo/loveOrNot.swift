@@ -14,10 +14,26 @@ class loveOrNot: UIViewController {
     
     @IBOutlet weak var loveOrNotLeftTableView: UITableView!
     @IBOutlet weak var loveOrNotView: UIView!
+    @IBOutlet weak var loveOrNotSegment: UISegmentedControl!
     
-    var resturantCount: [String?] = []
-    var resturantName: [String?] = []
-    var resturantPhoto: [String?] = []
+    var resturantCount: [String] = []
+    var resturantName: [String] = []
+    var resturantPhoto: [String] = []
+    
+    var resturantCountCommon: [String] = []
+    var resturantNameCommon: [String] = []
+    var resturantPhotoCommon: [String] = []
+    var resturantCountLike: [String] = []
+    var resturantNameLike: [String] = []
+    var resturantPhotoLike: [String] = []
+    var resturantCountHate: [String] = []
+    var resturantNameHate: [String] = []
+    var resturantPhotoHate: [String] = []
+    
+    var check = true
+    
+    var arrayRepeat = ["a","a","b","c"]
+    //var arrayNotRepeat = Array(Set(arrayrepeat))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,60 +52,129 @@ class loveOrNot: UIViewController {
         
         db = SQLiteConnect(path : sqlitePath)
         
+        // MARK: - Segment func
+        loveOrNotSegment.addTarget(self, action: #selector(valueChanged), for: .valueChanged)
     }
     
     override func viewWillAppear(_ animated: Bool) {
        
         if let mydb = db{
             
-            let statement = mydb.fetch(tableName: "ResturantInformation", cond: nil/*"RI_preference = like"*/, order: nil)
-            
-            while sqlite3_step(statement) == SQLITE_ROW{
-                if let count = sqlite3_column_text(statement, 0){
+            let statementLike = mydb.fetch(tableName: "ResturantInformation", cond: "RI_preference = 'like'", order: nil)
+            while sqlite3_step(statementLike) == SQLITE_ROW{
+                if let count = sqlite3_column_text(statementLike, 0){
                     var a:String? = String(cString: count)
                     print(a!)
-                    resturantCount.append(a!)
+                    resturantCountLike.append(a!)
                 }
-                if let name = sqlite3_column_text(statement, 2){
+                if let name = sqlite3_column_text(statementLike, 2){
                     var a:String? = String(cString: name)
-                    resturantName.append(a!)
+                    resturantNameLike.append(a!)
                 }
-                print("拿資料庫資料囉")
-            }
-            sqlite3_finalize(statement)
-            
-            let statement1 = mydb.fetch(tableName: "ResturantTypeAndPictureGet", cond: nil, order: nil)
-            if sqlite3_step(statement1) == SQLITE_ROW{
-                if let photo = sqlite3_column_text(statement1, 8){
+                if let photo = sqlite3_column_text(statementLike, 10){
                     var a:String? = String(cString: photo)
-                    
-                    print("asdasdasd"+a!)
-                    resturantPhoto.append(a!)
+                    resturantPhotoLike.append(a!)
+                }
+
+            }
+            sqlite3_finalize(statementLike)
+            
+            let statementCommon = mydb.fetch(tableName: "ResturantInformation", cond: "RI_preference = 'common'", order: nil)
+            while sqlite3_step(statementCommon) == SQLITE_ROW{
+                if let count = sqlite3_column_text(statementCommon, 0){
+                    var a:String? = String(cString: count)
+                    print(a!)
+                    resturantCountCommon.append(a!)
+                }
+                if let name = sqlite3_column_text(statementCommon, 2){
+                    var a:String? = String(cString: name)
+                    resturantNameCommon.append(a!)
+                }
+                if let photo = sqlite3_column_text(statementCommon, 10){
+                    var a:String? = String(cString: photo)
+                    resturantPhotoCommon.append(a!)
                 }
             }
-            sqlite3_finalize(statement1)
-        }
-
-        if resturantCount.count ==  0{
-            resturantCount.append("0")
-            resturantName.append("目前沒有資料")
+            sqlite3_finalize(statementCommon)
+            
+            let statementHate = mydb.fetch(tableName: "ResturantInformation", cond: "RI_preference = 'hate'", order: nil)
+            while sqlite3_step(statementHate) == SQLITE_ROW{
+                if let count = sqlite3_column_text(statementHate, 0){
+                    var a:String? = String(cString: count)
+                    print(a!)
+                    resturantCountHate.append(a!)
+                }
+                if let name = sqlite3_column_text(statementHate, 2){
+                    var a:String? = String(cString: name)
+                    resturantNameHate.append(a!)
+                }
+                if let photo = sqlite3_column_text(statementHate, 10){
+                    var a:String? = String(cString: photo)
+                    resturantPhotoHate.append(a!)
+                }
+            }
+            
+            sqlite3_finalize(statementHate)
         }
         
+        if check ==  true{
+            
+            resturantCount = resturantCountLike
+            resturantName = resturantNameLike
+            resturantPhoto = resturantPhotoLike
+        }
+            
         loveOrNotLeftTableView.dataSource = self
         loveOrNotLeftTableView.delegate = self
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        
-        loveOrNotLeftTableView.reloadData()
-    }
-    
     override func viewDidDisappear(_ animated: Bool) {
         
-        resturantCount = []
-        resturantName = []
-        resturantPhoto = []
+        loveOrNotSegment.selectedSegmentIndex = 0
+        
+        check = true
+        
+        resturantCountLike = []
+        resturantNameLike = []
+        resturantPhotoLike = []
+        
+        resturantCountCommon = []
+        resturantNameCommon = []
+        resturantPhotoCommon = []
+        
+        resturantCountHate = []
+        resturantNameHate = []
+        resturantPhotoHate = []
+    }
+    
+    func valueChanged(sender: UISegmentedControl){
+        print(sender.titleForSegment(at: sender.selectedSegmentIndex)!)
+        
+        self.resturantCount = []
+        self.resturantName = []
+        self.resturantPhoto = []
+        
+        switch sender.selectedSegmentIndex {
+        case 0:
+            self.resturantCount = self.resturantCountLike
+            self.resturantName = self.resturantNameLike
+            self.resturantPhoto = self.resturantPhotoLike
+            
+        case 1:
+            self.resturantCount = self.resturantCountCommon
+            self.resturantName = self.resturantNameCommon
+            self.resturantPhoto = self.resturantPhotoCommon
+        
+        default:
+            self.resturantCount = self.resturantCountHate
+            self.resturantName = self.resturantNameHate
+            self.resturantPhoto = self.resturantPhotoHate
+        }
+        
+        check = false
+        
+        self.loveOrNotLeftTableView.reloadData()
     }
     
     func navigationPushToloveOrNotBlackListVC(){
@@ -100,13 +185,16 @@ class loveOrNot: UIViewController {
 }
 // MARK: - UITableViewDataSource
 extension loveOrNot : UITableViewDataSource{
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             print(resturantCount.count)
-            return resturantCount.count
+            return resturantName.count
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "loveOrNotTableViewCell", for: indexPath) as! loveOrNotVCTableViewCell
@@ -115,39 +203,11 @@ extension loveOrNot : UITableViewDataSource{
         cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 8
         
-//        let label = UILabel()
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        cell.contentView.addSubview(label)
-//        
-//        let sublabel = UILabel()
-//        sublabel.translatesAutoresizingMaskIntoConstraints = false
-//        cell.contentView.addSubview(sublabel)
-//        
-//        var image = UIImageView()
-//        image.translatesAutoresizingMaskIntoConstraints = false
-//        cell.contentView.addSubview(image)
-//        
-//        let views = ["label":label,"subLabel":sublabel,"image":image] as [String : Any]
-//        
-//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[image(80)]", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-[label]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[label(50)]-0-[subLabel(30)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-[subLabel]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[label(50)]-0-[subLabel(30)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-//        print("1 3")
-        print(resturantPhoto[0])
-        let url = URL(string: "\((resturantPhoto[0])!)")
+        let url = URL(string: "\((resturantPhoto[indexPath.row]))")
         let data = try!Data(contentsOf: url!)
-        print("1 4")
-//        print(resturantName[indexPath.row])
-//        label.text = resturantName[indexPath.row]
-//        sublabel.text = "來店次數：\((resturantCount[indexPath.row])!) 次"
-//        image.image = UIImage(data: data)
-        print("1 4")
         
-            cell.loveOrNotVCTableViewCellLabel.text = resturantName[indexPath.row]
-        cell.loveOrNotVCTableViewCellSubLabel.text = "來店次數：\((resturantCount[indexPath.row])!) 次"
+        cell.loveOrNotVCTableViewCellLabel.text = resturantName[indexPath.row]
+        cell.loveOrNotVCTableViewCellSubLabel.text = "來店次數：\((resturantCount[indexPath.row])) 次"
         cell.loveOrNotVCTableViewCellImage.image = UIImage(data: data)
         
         return cell
@@ -158,8 +218,7 @@ extension loveOrNot : UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let pushToLoveOrNotResturantDetail = storyboard?.instantiateViewController(withIdentifier: "loveOrNotResturantDetail") as! loveOrNotResturantDetail
         
-        pushToLoveOrNotResturantDetail.getValueFromUpperView = "\(resturantName[indexPath.row]!)"
-        
+        pushToLoveOrNotResturantDetail.getValueFromUpperView = "\(resturantName[indexPath.row])"
         
         self.navigationController?.pushViewController(pushToLoveOrNotResturantDetail, animated: true)
     }

@@ -123,6 +123,8 @@ class dRDayListVC: UIViewController {
         }
 
         
+        print("123\(resturantPhoto[0]!)")
+        
         dRDayListTableView.dataSource = self
         dRDayListTableView.delegate = self
     }
@@ -198,26 +200,6 @@ extension dRDayListVC : UITableViewDataSource{
         cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 8
         
-//        label = UILabel()
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        cell.contentView.addSubview(label)
-//        
-//        let subLabel = UILabel()
-//        subLabel.translatesAutoresizingMaskIntoConstraints = false
-//        cell.contentView.addSubview(subLabel)
-//        
-//        var image = UIImageView()
-//        image.translatesAutoresizingMaskIntoConstraints = false
-//        cell.contentView.addSubview(image)
-//        
-//        let views = ["label":label,"subLabel":subLabel,"image":image] as [String : Any]
-//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[image(80)]", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-[label]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[label(50)]-0-[subLabel(30)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[image(90)]-10-[subLabel]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-//        cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[label(50)]-0-[subLabel(30)]-10-|", options: NSLayoutFormatOptions(rawValue:0), metrics: nil, views: views))
-        
         if searchController.isActive{
 //            label.text = "老吳滷肉飯"
 //            subLabel.text = "\(filtered[indexPath.row])"
@@ -227,16 +209,15 @@ extension dRDayListVC : UITableViewDataSource{
             //let url = URL(string: "\((resturantPhoto[indexPath.row])!)")
             //let data = try!Data(contentsOf: url!)
 
-            let url = URL(string: "\((testPhoto[0])!)")
+            print((self.resturantPhoto[indexPath.row])!)
+            
+            let url = URL(string: "\((self.resturantPhoto[indexPath.row])!)")
             let data = try!Data(contentsOf: url!)
             
             cell.dRDayListVCTableViewCellLabel.text = resturantName[indexPath.row]
             cell.dRDayListVCTableViewCellSubLabel.text = resturantStyle[indexPath.row]
             cell.dRDayListVCTableViewCellImage.image = UIImage(data: data)
             
-            //label.text = resturantName[indexPath.row]
-            //subLabel.text = resturantStyle[indexPath.row]
-            //image.image = UIImage(data: data)
             return cell
         }
     }

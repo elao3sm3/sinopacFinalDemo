@@ -20,6 +20,12 @@ class rMGoogleMapMain: UIViewController {
     var arrayLongitude: [String] = []
     var arrayImage: [String] = []
     
+    var arrayType1: [String] = []
+    var arrayType2: [String] = []
+    var arrayType3: [String] = []
+    var arrayType4: [String] = []
+    var arrayType5: [String] = []
+    
     var selectedComment: [AnyObject]?
     var arrayComment: [String] = []
     
@@ -70,16 +76,6 @@ class rMGoogleMapMain: UIViewController {
         // MARK: - Navigation Setting
         navigationController?.title = "美食地圖"
         
-        // MARK: - Get 評論
-        let url = NSURL(string: "http://10.11.24.95/eatwhat/api/selectComment")
-        
-        let sessionWithConfigure = URLSessionConfiguration.default
-        
-        let session = URLSession(configuration: sessionWithConfigure, delegate: self, delegateQueue: OperationQueue.main)
-        
-        let dataTask = session.downloadTask(with: url! as URL)
-        
-        dataTask.resume()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -99,18 +95,59 @@ class rMGoogleMapMain: UIViewController {
                     let a = String(cString: id)
                     arrayLongitude.append(a)
                 }
-                if let id = sqlite3_column_text(statement, 10){
-                    let a = String(cString: id)
-                    arrayImage.append(a)
-                }
+//                if let id = sqlite3_column_text(statement, 10){
+//                    let a = String(cString: id)
+//                    arrayImage.append(a)
+//                }
             }
-            
             sqlite3_finalize(statement)
             
+            let statement1 = mydb.fetch(tableName: "ResturantTypeAndPictureGet", cond: nil, order: nil)
+            while sqlite3_step(statement1) == SQLITE_ROW{
+                if let photo = sqlite3_column_text(statement1, 8){
+                    var a:String? = String(cString: photo)
+                    
+                    arrayImage.append(a!)
+                }
+                if let type = sqlite3_column_text(statement1, 2){
+                    var a:String? = String(cString: type)
+                    
+                    arrayType1.append(a!)
+                }
+                if let type = sqlite3_column_text(statement1, 3){
+                    var a:String? = String(cString: type)
+                    
+                    arrayType2.append(a!)
+                }
+                if let type = sqlite3_column_text(statement1, 4){
+                    var a:String? = String(cString: type)
+                    
+                    arrayType3.append(a!)
+                }
+                if let type = sqlite3_column_text(statement1, 5){
+                    var a:String? = String(cString: type)
+                    
+                    arrayType4.append(a!)
+                }
+                if let type = sqlite3_column_text(statement1, 6){
+                    var a:String? = String(cString: type)
+                    
+                    arrayType5.append(a!)
+                }
+            }
+            sqlite3_finalize(statement1)
         }
-        print("123")
-        print(arrayName.count)
-        print(arrayName[0],arrayLatitude[0],arrayLongitude[0])
+        
+        // MARK: - Get 評論
+        let url = NSURL(string: "http://10.11.24.95/eatwhat/api/selectComment")
+        
+        let sessionWithConfigure = URLSessionConfiguration.default
+        
+        let session = URLSession(configuration: sessionWithConfigure, delegate: self, delegateQueue: OperationQueue.main)
+        
+        let dataTask = session.downloadTask(with: url! as URL)
+        
+        dataTask.resume()
         
         // MARK: - GoogleMap 設定marker
         mapView.clear()
@@ -182,7 +219,8 @@ extension rMGoogleMapMain: CLLocationManagerDelegate{
 
 extension rMGoogleMapMain: GMSMapViewDelegate{
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
-        var selectedRestaurant: String?
+        var selectedRestaurantName: String?
+        var selectedRestaurantImage: String?
         
         let restaurantLatitude = NSString(format: "%.6f", marker.position.latitude)
         let restaurantLongitude = NSString(format: "%.6f", marker.position.longitude)
@@ -190,18 +228,45 @@ extension rMGoogleMapMain: GMSMapViewDelegate{
         for i in 0...(arrayName.count-1){
             if arrayLatitude[i] == restaurantLatitude as String && arrayLongitude[i] == restaurantLongitude as String{
 
-                selectedRestaurant = arrayName[i]
+                selectedRestaurantName = arrayName[i]
+                selectedRestaurantImage = arrayImage[i]
             }
         }
         
         var markerView = UIView()
-        markerView.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        markerView.frame = CGRect(x: 0, y: 0, width: 200, height: 210)
         markerView.backgroundColor = UIColor.white
         markerView.layer.cornerRadius = 20
         
         let label = UILabel()
-        label.text = "hi"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        label.text = "\(selectedRestaurantName!)"
+        label.textAlignment = .center
         markerView.addSubview(label)
+        
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        
+        let url = URL(string: "\(selectedRestaurantImage!)")
+        let data = try!Data(contentsOf: url!)
+        image.image = UIImage(data: data)
+        markerView.addSubview(image)
+        
+        let viewDictionary : Dictionary = ["label":label,"image":image]
+        
+        let imageWidth = NSLayoutConstraint.constraints(withVisualFormat: "H:|-25-[image(150)]-25-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewDictionary)
+        let imageHeight = NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[image(140)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewDictionary)
+        
+        markerView.addConstraints(imageWidth)
+        markerView.addConstraints(imageHeight)
+
+        
+        let labelWidth = NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[label]-10-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewDictionary)
+        let labelHeight = NSLayoutConstraint.constraints(withVisualFormat: "V:|-20-[image(140)]-10-[label(30)]-10-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewDictionary)
+        
+        markerView.addConstraints(labelWidth)
+        markerView.addConstraints(labelHeight)
         
         return markerView
     }
@@ -236,10 +301,18 @@ extension rMGoogleMapMain: GMSMapViewDelegate{
         
         let a = ((selectedComment![indexValue!]["S_id"])!)!
         
+        print(arrayImage[indexValue!])
+        
         goToRMDetailInformation.getListValueFromUpperView![0] = "\(a)"
         goToRMDetailInformation.getListValueFromUpperView![1] = arrayLatitude[indexValue!]
         goToRMDetailInformation.getListValueFromUpperView![2] = arrayLongitude[indexValue!]
-        //goToRMDetailInformation.getListValueFromUpperView![3] = arrayImage[0]
+        goToRMDetailInformation.getListValueFromUpperView![3] = arrayImage[indexValue!]
+        
+        goToRMDetailInformation.getListValueFromUpperView![4] = arrayType1[indexValue!]
+        goToRMDetailInformation.getListValueFromUpperView![5] = arrayType2[indexValue!]
+        goToRMDetailInformation.getListValueFromUpperView![6] = arrayType3[indexValue!]
+        goToRMDetailInformation.getListValueFromUpperView![7] = arrayType4[indexValue!]
+        goToRMDetailInformation.getListValueFromUpperView![8] = arrayType5[indexValue!]
         
         goToRMDetailInformation.modalTransitionStyle = .coverVertical
         goToRMDetailInformation.modalPresentationStyle = .fullScreen
@@ -262,16 +335,6 @@ extension rMGoogleMapMain: URLSessionDownloadDelegate{
         }
     }
 }
-//extension rMGoogleMapMain: UINavigationControllerDelegate{
-//    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-//        
-//        let transion = rMAnimation()
-//        
-//        return transion
-//    }
-//
-//}
-
 
 
 

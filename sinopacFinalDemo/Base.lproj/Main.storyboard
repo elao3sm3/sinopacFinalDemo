@@ -304,7 +304,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="44" translatesAutoresizingMaskIntoConstraints="NO" id="Xh1-6W-f0V">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <rect key="frame" x="0.0" y="109" width="375" height="509"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexBackgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
@@ -361,18 +361,31 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="wIt-cN-rRJ">
+                                <rect key="frame" x="0.0" y="64" width="375" height="46"/>
+                                <segments>
+                                    <segment title="喜歡"/>
+                                    <segment title="普通"/>
+                                    <segment title="討厭" width="125"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="Xh1-6W-f0V" firstAttribute="leading" secondItem="ljs-6a-XEC" secondAttribute="leading" id="15I-k9-MRu"/>
-                            <constraint firstItem="Xh1-6W-f0V" firstAttribute="top" secondItem="O7o-ce-lPl" secondAttribute="bottom" id="EUk-D0-fcG"/>
+                            <constraint firstItem="Xh1-6W-f0V" firstAttribute="top" secondItem="wIt-cN-rRJ" secondAttribute="bottom" id="2Xe-uY-1Je"/>
+                            <constraint firstItem="Xh1-6W-f0V" firstAttribute="top" secondItem="O7o-ce-lPl" secondAttribute="bottom" constant="45" id="EUk-D0-fcG"/>
+                            <constraint firstItem="wIt-cN-rRJ" firstAttribute="top" secondItem="O7o-ce-lPl" secondAttribute="bottom" id="V12-cG-7bE"/>
+                            <constraint firstItem="wIt-cN-rRJ" firstAttribute="leading" secondItem="ljs-6a-XEC" secondAttribute="leading" id="ZLC-Pc-6dr"/>
                             <constraint firstAttribute="trailing" secondItem="Xh1-6W-f0V" secondAttribute="trailing" id="gbS-wx-Lga"/>
                             <constraint firstItem="nmL-WB-bHs" firstAttribute="top" secondItem="Xh1-6W-f0V" secondAttribute="bottom" id="q3A-4D-gds"/>
+                            <constraint firstAttribute="trailing" secondItem="wIt-cN-rRJ" secondAttribute="trailing" id="vvj-3c-lDm"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="5Qo-kS-7LQ"/>
                     <connections>
                         <outlet property="loveOrNotLeftTableView" destination="Xh1-6W-f0V" id="Hhf-hF-fDD"/>
+                        <outlet property="loveOrNotSegment" destination="wIt-cN-rRJ" id="Aj0-Vq-qq2"/>
                         <outlet property="searchDisplayController" destination="E69-Fm-ecX" id="e95-XJ-38m"/>
                     </connections>
                 </viewController>
@@ -799,7 +812,7 @@
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QGf-f5-EIO">
                                                 <rect key="frame" x="0.0" y="67" width="303" height="56.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="46"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>

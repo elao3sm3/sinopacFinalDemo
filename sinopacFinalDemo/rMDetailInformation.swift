@@ -14,8 +14,10 @@ class rMDetailInformation: UIViewController {
     
     var getValueFromUpperView: String?
     var getArrayValueFromUpperView: [String]?
-    var getListValueFromUpperView: [String]? = ["","","",""]
+    var getListValueFromUpperView: [String]? = ["","","","","","","","",""]
     var dataArray: [String] = []
+    
+    var checkRestaurantName: [String] = []
     
     var RI_tableID: [Int] = []
     
@@ -24,6 +26,8 @@ class rMDetailInformation: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        print("rMDetailInformation")
+        
         //MARK: - NavigationSettig
         self.navigationItem.title = (self.getValueFromUpperView!)
         
@@ -83,6 +87,18 @@ class rMDetailInformation: UIViewController {
                 }
             }
             sqlite3_finalize(statement2)
+            
+            let statement3 = mydb.fetch(tableName: "ResturantInformation", cond: nil, order: nil)
+            while sqlite3_step(statement3) == SQLITE_ROW{
+                if let restaurantName = sqlite3_column_text(statement3, 2){
+                    var a: String? = String(cString: restaurantName)
+                    
+                    self.checkRestaurantName.append((a!))
+                }else{
+                    self.checkRestaurantName = []
+                }
+            }
+            sqlite3_finalize(statement3)
         }
 
         rMDetailInformationTableView.dataSource = self
@@ -96,14 +112,18 @@ class rMDetailInformation: UIViewController {
     
     func addToDairyRecord(){
         
+        let a = checkRestaurantName.filter{ $0 == self.getValueFromUpperView! }
+        if !a.isEmpty{
+            print(a)
+        }
         var tableID = self.RI_tableID.count
         
         let now = Date()
         
         if let mydb = self.db{
-            mydb.insert(tableName: "ResturantInformation", rowInfo: ["RI_tableID":"'\(String(tableID))'","RI_id":"'\(self.getListValueFromUpperView![0])'","RI_name":"'\(self.getValueFromUpperView!)'","RI_address":"'\(dataArray[0])'","RI_phone":"'\(dataArray[1])'","RI_latitude":"'\(self.getListValueFromUpperView![1])'","RI_longitude":"'\(self.getListValueFromUpperView![2])'","RI_price":"'\(dataArray[2])'","RI_opentime":"'\(dataArray[3])'","RI_closetime":"'\(dataArray[4])'","RI_photo":"'\(self.getListValueFromUpperView![3])'","RI_style":"'\(dataArray[5])'","RI_preference":"'like'"])
+            mydb.insert(tableName: "ResturantInformation", rowInfo: ["RI_tableID":"'\(String(tableID))'","RI_id":"'\(self.getListValueFromUpperView![0])'","RI_name":"'\(self.getValueFromUpperView!)'","RI_address":"'\(dataArray[0])'","RI_phone":"'\(dataArray[1])'","RI_latitude":"'\(self.getListValueFromUpperView![1])'","RI_longitude":"'\(self.getListValueFromUpperView![2])'","RI_price":"'\(dataArray[2])'","RI_opentime":"'\(dataArray[3])'","RI_closetime":"'\(dataArray[4])'","RI_photo":"'\(self.getListValueFromUpperView![3])'","RI_style":"'\(self.getListValueFromUpperView![4]) \(self.getListValueFromUpperView![5]) \(self.getListValueFromUpperView![6]) \(self.getListValueFromUpperView![7]) \(self.getListValueFromUpperView![8])'","RI_preference":"'like'"])
             
-            mydb.insert(tableName: "DiaryRecord", rowInfo: ["DR_tableID":"'\(String(tableID))'","DR_name":"'\(self.getValueFromUpperView!)'","DR_photo":"'\(dataArray[1])'","DR_style":"'\(dataArray[5])'","DR_price":"'\(dataArray[2])'","DR_date":"'\(now)'"])
+            mydb.insert(tableName: "DiaryRecord", rowInfo: ["DR_tableID":"'\(String(tableID))'","DR_name":"'\(self.getValueFromUpperView!)'","DR_photo":"'\(self.getListValueFromUpperView![3])'","DR_style":"'\(self.getListValueFromUpperView![4]) \(self.getListValueFromUpperView![5]) \(self.getListValueFromUpperView![6]) \(self.getListValueFromUpperView![7]) \(self.getListValueFromUpperView![8])'","DR_price":"'\(dataArray[2])'","DR_date":"'\(now)'"])
             
             mydb.insert(tableName: "ResturantPicture", rowInfo: ["RP_tableID":"'\(String(tableID))'","RP_resturantName":"'\(self.getValueFromUpperView!)'"])
         }
@@ -153,7 +173,7 @@ extension rMDetailInformation: UITableViewDataSource{
             switch indexPath.row {
                 case 0:
                     labelKey.text = "類別"
-                    labelValue.text = "\(dataArray[5])"
+                    labelValue.text = "\(self.getListValueFromUpperView![4]) \(self.getListValueFromUpperView![5]) \(self.getListValueFromUpperView![6]) \(self.getListValueFromUpperView![7]) \(self.getListValueFromUpperView![8])"
                 case 1:
                     labelKey.text = "價格"
                     labelValue.text = "\(dataArray[2])"

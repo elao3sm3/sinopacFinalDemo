@@ -18,9 +18,10 @@ class dRDayDetailVC: UIViewController {
     var getPageFromUpperView: String?
     
     var userAppraise: String? = "普通"
+    var userAppraiseIndex: Int? = 0
     
     var base64pic : String?
-    var imageArray: [String] = ["","","","","","","","",""]
+    var imageArray: [String] = []
     var pictureString: String?
     var decodedData:NSData?
     var imageRecord = 0
@@ -39,6 +40,7 @@ class dRDayDetailVC: UIViewController {
         super.viewDidLoad()
 
         print("dRDayDetailVC")
+        print("viewDidLoad")
         
         // MARK: - NavigationSetting
         let dRNavigationRightButton = UIBarButtonItem(title : "完成",style : .plain,target : self, action : #selector(navigationComplete))
@@ -53,6 +55,8 @@ class dRDayDetailVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
+        print("viewWillAppear")
+        print(check)
         if check == true{
             if let mydb = db{
                
@@ -128,70 +132,97 @@ class dRDayDetailVC: UIViewController {
                     if let picture1 = sqlite3_column_text(statement1, 2){
                         
                         var a:String? = String(cString: picture1)
-                        if a != nil{
-                            imageArray[0] = a!
+                        if a != nil&&a! != "1"{
+                            imageArray.append(a!)
                         }
                     }
                     if let picture1 = sqlite3_column_text(statement1, 3){
                         
                         var a:String? = String(cString: picture1)
-                        if a != nil{
-                            imageArray[1] = a!
+                        if a != nil&&a! != "1"{
+                            imageArray.append(a!)
                         }
                     }
                     if let picture1 = sqlite3_column_text(statement1, 4){
                         
                         var a:String? = String(cString: picture1)
-                        if a != nil{
-                            imageArray[2] = a!
+                        if a != nil&&a! != "1"{
+                            imageArray.append(a!)
                         }
                     }
                     if let picture1 = sqlite3_column_text(statement1, 5){
                         
                         var a:String? = String(cString: picture1)
-                        if a != nil{
-                            imageArray[3] = a!
+                        if a != nil&&a! != "1"{
+                            imageArray.append(a!)
                         }
                     }
                     if let picture1 = sqlite3_column_text(statement1, 6){
                         
                         var a:String? = String(cString: picture1)
-                        if a != nil{
-                            imageArray[4] = a!
+                        if a != nil&&a! != "1"{
+                            imageArray.append(a!)
                         }
                     }
                     if let picture1 = sqlite3_column_text(statement1, 7){
                         
                         var a:String? = String(cString: picture1)
-                        if a != nil{
-                            imageArray[5] = a!
+                        if a != nil&&a! != "1"{
+                            imageArray.append(a!)
                         }
                     }
                     if let picture1 = sqlite3_column_text(statement1, 8){
                         
                         var a:String? = String(cString: picture1)
-                        if a != nil{
-                            imageArray[6] = a!
+                        if a != nil&&a! != "1"{
+                            imageArray.append(a!)
                         }
                     }
                     if let picture1 = sqlite3_column_text(statement1, 9){
                         
                         var a:String? = String(cString: picture1)
-                        if a != nil{
-                            imageArray[7] = a!
+                        if a != nil&&a! != "1"{
+                            imageArray.append(a!)
                         }
                     }
                     if let picture1 = sqlite3_column_text(statement1, 10){
                         
                         var a:String? = String(cString: picture1)
-                        if a != nil{
+                        if a! != nil&&a! != "1"{
                             
-                            imageArray[8] = a!
+                            imageArray.append(a!)
                         }
                     }
                 }
                 sqlite3_finalize(statement1)
+                
+            let statement2 = mydb.fetch(tableName: "ResturantInformation", cond: "RI_tableID = '\(((self.getValueFromUpperView!)))'", order: nil)
+                
+                if sqlite3_step(statement2) == SQLITE_ROW{
+                    
+                    if let appraise = sqlite3_column_text(statement2, 12){
+                        
+                        var a:String? = String(cString: appraise)
+                        
+                        userAppraise = a!
+                    }
+
+                
+                }
+            
+                sqlite3_finalize(statement2)
+            
             }
+        }
+        
+        print(userAppraise!)
+        switch userAppraise! {
+        case "like":
+            userAppraiseIndex = 0
+        case "common":
+            userAppraiseIndex = 1
+        default:
+            userAppraiseIndex = 2
         }
         
         dRDayDetailTableView.dataSource = self
@@ -203,18 +234,20 @@ class dRDayDetailVC: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         
+        print("viewDidAppear")
+        
         stay = false
         dRDayDetailTableView.reloadData()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         
+        print("viewDidDisappear")
+        
         if stay == false{
             self.navigationController?.popToRootViewController(animated: true)
             
-            for i in 0...8{
-                imageArray[i] = ""
-            }
+            imageArray = []
             imageRecord = 0
             check = true
             collectionViewCanEdit = false
@@ -224,24 +257,32 @@ class dRDayDetailVC: UIViewController {
 
     func navigationComplete(){
        
+        print("navigationComplete")
+        
         let cell = dRDayDetailTableView.cellForRow(at: IndexPath(row: 2, section: 0)) as! dRDayDetailVCTableViewCellMeal
         let textField = cell.dRDayDetailVCTableViewCellMealTextField.text
         
         let cell1 = dRDayDetailTableView.cellForRow(at: IndexPath(row: 4,section: 0)) as! dRDayDetailVCTableViewCellTextView
         let textView = cell1.dRDayDetailVCTableViewCellAppraiseTextView.text
         
+        let i = 9 - imageArray.count
+        if i < 10{
+            for j in 1...i{
+                imageArray.append("1")
+            }
+        }
         if let mydb = db{
         
             mydb.update(tableName: "DiaryRecord", cond: "DR_tableID = '\(((self.getValueFromUpperView!)))'", rowInfo: ["DR_meal":"'\(textField!)'","DR_preference":"'\(userAppraise!)'","DR_comment":"'\(textView!)'"])
             
             mydb.update(tableName: "ResturantPicture", cond: "RP_tableID = '\(((self.getValueFromUpperView!)))'", rowInfo: ["RP_picture1":"'\(self.imageArray[0])'","RP_picture2":"'\(self.imageArray[1])'","RP_picture3":"'\(self.imageArray[2])'","RP_picture4":"'\(self.imageArray[3])'","RP_picture5":"'\(self.imageArray[4])'","RP_picture6":"'\(self.imageArray[5])'","RP_picture7":"'\(self.imageArray[6])'","RP_picture8":"'\(self.imageArray[7])'","RP_picture9":"'\(self.imageArray[8])'",])
+            
+            mydb.update(tableName: "ResturantInformation", cond: "RI_tableID = '\(((self.getValueFromUpperView!)))'", rowInfo: ["RI_preference":"'\(userAppraise!)'"])
         }
         
         collectionViewCanEdit = false
-        for i in 0...8{
-            imageArray[i] = ""
-        }
-        imageRecord = 0
+        
+        imageArray = []
         check = true
         
         let alert = UIAlertController(title: "要把評論推送至雲端嗎？", message: "", preferredStyle: .alert)
@@ -293,12 +334,16 @@ class dRDayDetailVC: UIViewController {
     // MARK: - 允許編輯collection view
     @IBAction func addPicture(_ sender: UIButton) {
         
+        print("addPicture")
+        
         collectionViewCanEdit = true
         
     }
     
     // MARK: - 增加照片的方式
     @IBAction func takePicture(_ sender: Any) {
+        
+        print("takePicture")
         
         let alert = UIAlertController(title: "新增圖片", message: "", preferredStyle: .alert)
         
@@ -355,18 +400,28 @@ class dRDayDetailVC: UIViewController {
     
     func appraiseChange(sender: UISegmentedControl){
         
-        print(sender.titleForSegment(at: sender.selectedSegmentIndex)!)
+        print("dRDayDetailVC")
         
-        userAppraise = sender.titleForSegment(at: sender.selectedSegmentIndex)!
+        switch sender.selectedSegmentIndex {
+        case 0:
+            userAppraise = "like"
+        case 1:
+            userAppraise = "common"
+        default:
+            userAppraise = "hate"
+        }
+        
     }
     
 }
 // MARK: - UITableViewDataSource
 extension dRDayDetailVC : UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return 5
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
         if indexPath.row == 4{
             return 132
         }else{
@@ -410,6 +465,7 @@ extension dRDayDetailVC : UITableViewDataSource{
             let cell = tableView.dequeueReusableCell(withIdentifier: "dRDayDetailTableViewCellAppraise", for: indexPath) as! dRDayDetailVCTableViewCellAppraise
             
             cell.dRDayDetailVCTableViewCellAppraiseLabel.text = dataArray[3]
+            cell.dRDayDetailVCTableViewCellAppraiseSegment.selectedSegmentIndex = userAppraiseIndex!
             cell.dRDayDetailVCTableViewCellAppraiseSegment.addTarget(self, action: #selector(appraiseChange), for: .valueChanged)
             
             return cell
@@ -446,7 +502,7 @@ extension dRDayDetailVC: UICollectionViewDataSource{
         
         var image = cell.viewWithTag(1) as! UIImageView
         
-        self.decodedData = NSData(base64Encoded: self.imageArray[0], options:  NSData.Base64DecodingOptions(rawValue: 0))
+        self.decodedData = NSData(base64Encoded: self.imageArray[indexPath.row], options:  NSData.Base64DecodingOptions(rawValue: 0))
         
         if decodedData != nil{
             let decodedimage = UIImage(data: decodedData! as Data)
@@ -476,9 +532,8 @@ extension dRDayDetailVC: UICollectionViewDelegate{
                 handler: {
                     (action: UIAlertAction!) -> Void in
                     
-                    print("你刪除了\(self.imageArray[indexPath.row])")
                     self.imageArray.remove(at: indexPath.row)
-                    self.imageArray.append("")
+                    
                     //self.collectionViewEdit = false
                     self.dRDayDetailCollectionView.reloadData()
                     
@@ -507,14 +562,11 @@ extension dRDayDetailVC : UIImagePickerControllerDelegate{
         let stringBase64 = imageData?.base64EncodedString(options:NSData.Base64EncodingOptions(rawValue:0))
         base64pic = stringBase64
         
-            imageArray[1] = base64pic!
-            imageRecord = imageRecord + 1
+            imageArray.append(base64pic!)
             check = false
-        
             print(imageArray.count)
         
             dRDayDetailCollectionView.reloadData()
-        
     }
 }
 

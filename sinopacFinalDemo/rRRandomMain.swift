@@ -18,7 +18,11 @@ class rRRandomMain: UIViewController {
     let now = NSDate()
     var goalTime: Double?
     var transferDataArray: [AnyObject] = []
+    var transferImage = [""]
+    var transferType = [""]
     var countTime: Int = 0
+    
+    var checkRestaurantName: [String] = []
     
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
@@ -99,6 +103,12 @@ class rRRandomMain: UIViewController {
             self.activityIndicator.stopAnimating()
         }
         
+        // MARK: - 開啟資料庫
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let sqlitePath = urls[urls.count-1].absoluteString+"CardDb.sqlite3"
+        
+        db = SQLiteConnect(path : sqlitePath)
+        
 //        // MARK: - GoogleMap 目前位置
 //        locationManager = CLLocationManager()
 //        locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -113,11 +123,8 @@ class rRRandomMain: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         
-        // MARK: - 開啟資料庫
-        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let sqlitePath = urls[urls.count-1].absoluteString+"CardDb.sqlite3"
+        print("viewWillAppear")
         
-        db = SQLiteConnect(path : sqlitePath)
         if let mydb = self.db{
             
             let statement1 = mydb.fetch(tableName: "GoalTime", cond: nil, order: nil)
@@ -145,40 +152,20 @@ class rRRandomMain: UIViewController {
                     self.RI_tableID = []
                 }
             }
-        }
-        
-        // MARK: - 當前時間(格林威治時間，加上28800為台灣時間)
-        let timeInternal: TimeInterval = now.timeIntervalSince1970
-        print("台灣當前時間時間戳"+"\((Int)(timeInternal)+28800)")
-        
-        // MARK: - 倒數計時Label 進行非同步執行
-        let queue = DispatchQueue(label: "com.rRRandomMain.countdown")
-        
-        queue.async {
+            sqlite3_finalize(statement2)
             
-            if self.goalTime != 0{
-                
-                self.countTime = Int(self.goalTime! - (timeInternal as Double))
-                print(self.countTime)
-                
-                    self.rRRandomMainTimeLabel.text = "\(Int(self.countTime))"
-                    self.testTimeNumber = Int(self.countTime)
-                
-                    self.countdowd()
-                
-                if self.countTime == 0 || self.countTime < 0{
-                    if let mydb = self.db{
-                        mydb.update(tableName: "GoalTime", cond: nil, rowInfo: ["GT_goaltime":"'0'"])
-                    }
+            let statement3 = mydb.fetch(tableName: "ResturantInformation", cond: nil, order: nil)
+            while sqlite3_step(statement3) == SQLITE_ROW{
+                if let restaurantName = sqlite3_column_text(statement3, 2){
+                    var a: String? = String(cString: restaurantName)
+                    
+                    self.checkRestaurantName.append((a!))
+                }else{
+                    self.checkRestaurantName = []
                 }
-            }else{
-                
-                self.rRRandomMainTimeLabel.text = "00:00:00"
             }
-            
+            sqlite3_finalize(statement3)
         }
-        
-        self.countdowd()
         
         self.rRRandomMainPicker.dataSource = self
         self.rRRandomMainPicker.delegate = self
@@ -186,8 +173,28 @@ class rRRandomMain: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         
-        self.rRRandomMainPicker.dataSource = self
-        self.rRRandomMainPicker.delegate = self
+        // MARK: - 當前時間(格林威治時間，加上28800為台灣時間)
+        let viewDidLoadtimeInternal: TimeInterval = now.timeIntervalSince1970
+        print("台灣當前時間時間戳"+"\((Int)(viewDidLoadtimeInternal)+28800)")
+        
+        if Int(viewDidLoadtimeInternal) >= Int(goalTime!){
+            
+            self.rRRandomMainTimeLabel.text = "現在可以拉！"
+            if let mydb = self.db{
+                mydb.update(tableName: "GoalTime", cond: nil, rowInfo: ["GT_goaltime":"'0'"])
+            }
+            
+        }else{
+            
+            let a: TimeInterval = goalTime!+28800
+            let date = Date(timeIntervalSince1970: a)
+            
+            let b = "\(date)"
+            let c = b.subString(start: 5, length: 14)
+            
+            self.rRRandomMainTimeLabel.text = c
+        }
+
         
         self.rRRandomMainPicker.reloadComponent(0)
     }
@@ -199,8 +206,11 @@ class rRRandomMain: UIViewController {
     
     // MARK: - 拉霸按鈕
     @IBAction func pullButton(_ sender: UIButton) {
-        print("countdown"+"\(countTime)")
-        if countTime == 0{
+        
+        let getNow = Date()
+        let getNowInternal = Int(getNow.timeIntervalSince1970)
+        
+        if getNowInternal >= Int(goalTime!){
         
         let value = arc4random()%(UInt32)(self.restaurantName.count)
         rRRandomMainPicker.selectRow(Int(value), inComponent: 0, animated: true)
@@ -210,7 +220,6 @@ class rRRandomMain: UIViewController {
         postRestaurantQueue.sync {
 
             postRestaurant(restaurantName: ((restaurantName[Int(value)])) as! String)
-        
         }
         
         let delayQueue = DispatchQueue(label: "com.rRRandomMain.randomAlert")
@@ -218,22 +227,20 @@ class rRRandomMain: UIViewController {
         delayQueue.asyncAfter(deadline: .now() + 0.3){
         let alert = UIAlertController(title: "選中的是", message: "\((self.restaurantName[(Int)(value)]))", preferredStyle: .alert)
         
-            let cancelButton = UIAlertAction(title: "取消", style: .cancel, handler:nil)
-        let pushButton = UIAlertAction(title: "確定", style: .default, handler: {
+            let cancelButton = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+            let pushButton = UIAlertAction(title: "確定", style: .default, handler: {
             (action:UIAlertAction!) -> Void in
             
             var tableID = self.RI_tableID.count
-            print(tableID)
             
             if let mydb = self.db{
-                mydb.insert(tableName: "ResturantInformation", rowInfo: ["RI_tableID":"'\(String(tableID))'","RI_id":"'\(((self.transferDataArray[0]["S_id"])!)!)'","RI_name":"'\(self.restaurantName[(Int)(value)])'","RI_address":"'\(((self.transferDataArray[0]["S_address"])!)!)'","RI_phone":"'\(((self.transferDataArray[0]["S_phone"])!)!)'","RI_latitude":"'\(((self.transferDataArray[0]["S_latitude"])!)!)'","RI_longitude":"'\(((self.transferDataArray[0]["S__longitude"])!)!)'","RI_price":"'\(((self.transferDataArray[0]["S_price"])!)!)'","RI_opentime":"'\(((self.transferDataArray[0]["S_opentime"])!)!)'","RI_closetime":"'\(((self.transferDataArray[0]["S_closetime"])!)!)'","RI_photo":"'\(((self.transferDataArray[0]["S_id"])!)!)'","RI_style":"'\(((self.transferDataArray[0]["T_name"])!)!)'","RI_preference":"'like'"])
+                mydb.insert(tableName: "ResturantInformation", rowInfo: ["RI_tableID":"'\(String(tableID))'","RI_id":"'\(((self.transferDataArray[0]["S_id"])!)!)'","RI_name":"'\(self.restaurantName[(Int)(value)])'","RI_address":"'\(((self.transferDataArray[0]["S_address"])!)!)'","RI_phone":"'\(((self.transferDataArray[0]["S_phone"])!)!)'","RI_latitude":"'\(((self.transferDataArray[0]["S_latitude"])!)!)'","RI_longitude":"'\(((self.transferDataArray[0]["S__longitude"])!)!)'","RI_price":"'\(((self.transferDataArray[0]["S_price"])!)!)'","RI_opentime":"'\(((self.transferDataArray[0]["S_opentime"])!)!)'","RI_closetime":"'\(((self.transferDataArray[0]["S_closetime"])!)!)'","RI_photo":"'\(self.transferImage[0])'","RI_style":"'\(self.transferType[0]) \(self.transferType[1]) \(self.transferType[2]) \(self.transferType[3]) \(self.transferType[4])'","RI_preference":"'like'"])
                 
-                mydb.insert(tableName: "DiaryRecord", rowInfo: ["DR_tableID":"'\(String(tableID))'","DR_name":"'\(((self.transferDataArray[0]["S_name"])!)!)'","DR_photo":"'\(((self.transferDataArray[0]["S_id"])!)!)'","DR_style":"'\(((self.transferDataArray[0]["T_name"])!)!)'","DR_price":"'\(((self.transferDataArray[0]["S_price"])))'","DR_date":"'\(self.now)'"])
+                mydb.insert(tableName: "DiaryRecord", rowInfo: ["DR_tableID":"'\(String(tableID))'","DR_name":"'\(((self.transferDataArray[0]["S_name"])!)!)'","DR_photo":"'\(self.transferImage[0])'","DR_style":"'\(self.transferType[0]) \(self.transferType[1]) \(self.transferType[2]) \(self.transferType[3]) \(self.transferType[4])'","DR_price":"'\(((self.transferDataArray[0]["S_price"])))'","DR_date":"'\(self.now)'"])
                 
                 mydb.insert(tableName: "ResturantPicture", rowInfo: ["RP_tableID":"'\(String(tableID))'","RP_resturantName":"'\(((self.transferDataArray[0]["S_name"])!)!)'"])
             }
-            print(((self.transferDataArray[0]["S_name"])!)!)
-            print("3")
+            
             self.goTorRFoodMap(resturantNameTorRFoodMap: (self.restaurantName[(Int)(value)]))
         })
         alert.addAction(cancelButton)
@@ -241,17 +248,34 @@ class rRRandomMain: UIViewController {
         
         self.present(alert,animated: true,completion: nil)
         }
-            let rightNow = NSDate()
+        var rightNow = NSDate()
             
         if let mydb = self.db{
-            mydb.update(tableName: "GoalTime", cond: nil, rowInfo: ["GT_goaltime":"'\(Double(now.timeIntervalSince1970)+10)'"])
+            mydb.update(tableName: "GoalTime", cond: nil, rowInfo: ["GT_goaltime":"'\(Int(rightNow.timeIntervalSince1970)+100)'"])
         }
+            let rightNowInternal = rightNow.timeIntervalSince1970+28800
+            rightNow = Date(timeIntervalSince1970: rightNowInternal) as NSDate
             
-            let timeInternal: TimeInterval = rightNow.timeIntervalSince1970
-            goalTime = timeInternal + 10
+            let a = "\(rightNow)"
+            let b = a.subString(start: 5, length: 14)
+
+         goalTime = rightNow.timeIntervalSince1970+100
+         rRRandomMainTimeLabel.text = b
             
-            //self.viewWillAppear.reloadComponent
-       }
+        }else{
+            countTime = Int(goalTime!) - getNowInternal
+            
+            let hour = countTime / 3600
+            let minute = (countTime-hour*3600) / 60
+            let second = countTime % 60
+            
+            let alert = UIAlertController(title: "還要等：", message: "\(minute) 分鐘 \(second) 秒", preferredStyle: .alert)
+            
+            let okButton = UIAlertAction(title: "確定", style: .default, handler: nil)
+            alert.addAction(okButton)
+            
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     // MARK: - 選擇按鈕
     @IBAction func popViewConditionView(_ sender: UIButton) {
@@ -272,27 +296,6 @@ class rRRandomMain: UIViewController {
             if con != nil{
                 
                 con?.delegate = self
-            }
-        }
-    }
-    // MARK: - 倒數計時器
-    func countdowd(){
-        
-        autoTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(countdownMethod), userInfo: nil, repeats: true)
-    }
-    func countdownMethod(){
-        
-        if testTimeNumber != nil{
-            
-            testTimeNumber = testTimeNumber! - 1
-            
-            if self.testTimeNumber! >= 0{
-                
-                let hour = self.testTimeNumber! / 3600
-                let minute = testTimeNumber! % 3600 / 60
-                let second = testTimeNumber! % 60
-                
-                rRRandomMainTimeLabel.text = "\(hour) : \(minute) : \(second)"
             }
         }
     }
@@ -328,6 +331,14 @@ class rRRandomMain: UIViewController {
             
             self.transferDataArray = json!
             print(((self.transferDataArray[0]["S__longitude"])!)!)
+            
+            self.transferImage = ((self.transferDataArray[0]["P_photes"])!)! as! [String]
+            self.transferType = ((self.transferDataArray[0]["T_name"])!)! as! [String]
+            
+            let count = 5 - self.transferType.count
+            for i in 0...count{
+                self.transferType.append("")
+            }
             
             let responseString = String(data: data,encoding: .utf8)
             print("responseString = \(responseString!)")
@@ -432,7 +443,21 @@ extension rRRandomMain : UIPopoverPresentationControllerDelegate{
     }
     
 }
-
+// MARK: - String
+extension String{
+    func subString(start: Int,length: Int = -1) -> String{
+        var len = length
+        if len == -1{
+            len = characters.count - start
+        }
+        
+        let st = characters.index(startIndex, offsetBy: start)
+        let en = characters.index(st, offsetBy: len)
+        let range = st ..< en
+        
+        return substring(with: range)
+    }
+}
 
 
 

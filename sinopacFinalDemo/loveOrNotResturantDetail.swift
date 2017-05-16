@@ -20,6 +20,10 @@ class loveOrNotResturantDetail: UIViewController {
     var detailDate: [String?] = []
     var detailMeal: [String?] = []
     
+    var ensurePhoto: [String] = []
+    
+    var decodedData:NSData?
+    
     var getValueFromUpperView: String?
     
     let customPresentAnimationController = CustomPresentAnimationController()
@@ -28,6 +32,7 @@ class loveOrNotResturantDetail: UIViewController {
         super.viewDidLoad()
        
         print("loveOrNotResturantDetail")
+        print(self.getValueFromUpperView!)
         
         //MARK: - NavigationSettig
         self.navigationItem.title = (self.getValueFromUpperView!)
@@ -43,40 +48,53 @@ class loveOrNotResturantDetail: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         if let mydb = db{
+            
             let statement = mydb.fetch(tableName: "diaryRecord", cond: "DR_name = '\(self.getValueFromUpperView!)'", order: nil)
-            if sqlite3_step(statement) == SQLITE_ROW{
+            while sqlite3_step(statement) == SQLITE_ROW{
                 if let count = sqlite3_column_text(statement, 0){
-                    var a:String? = String(cString: count)
-                    print(a!)
-                    detailCount.append(a!)
+                    var a:String = String(cString: count)
+                    print(a)
+                    
+                    detailCount.append(a)
                 }
                 if let photo = sqlite3_column_text(statement, 2){
-                    var a:String? = String(cString: photo)
-                    print(a!)
-                    detailPhoto.append(a!)
+                    var a:String = String(cString: photo)
+                    
+                    ensurePhoto.append(a)
                 }
                 if let date = sqlite3_column_text(statement, 5){
-                    var a:String? = String(cString: date)
-                    print(a!)
-                    detailDate.append(a!)
+                    var a:String = String(cString: date)
+                    
+                    detailDate.append(a)
                 }
                 if let meal = sqlite3_column_text(statement, 6){
-                    var a:String? = String(cString: meal)
+                    var a:String = String(cString: meal)
                     
-                    print(a!)
-                    
-                    detailMeal.append(a!)
+                    if a == nil||a == ""{
+                        a = "尚未輸入餐點"
+                        detailMeal.append(a)
+                    }else{
+                        detailMeal.append(a)
+                    }
                 }
-            }else{
-                detailCount.append("")
-                detailPhoto.append("")
-                detailDate.append("")
-                detailMeal.append("")
             }
             sqlite3_finalize(statement)
+            
+            let statement1 = mydb.fetch(tableName: "ResturantPicture", cond: "RP_resturantName = '\(self.getValueFromUpperView!)'", order: nil)
+            while sqlite3_step(statement1) == SQLITE_ROW{
+                if let count = sqlite3_column_text(statement1, 2){
+                    var a:String = String(cString: count)
+                    print(a)
+                    if a == nil||a == ""{
+                        a = "a"
+                        detailPhoto.append(a)
+                    }else{
+                        detailPhoto.append(a)
+                    }
+                }
+            }
+            sqlite3_finalize(statement1)
         }
-        
-        //navigationController?.delegate = self
         
         resturantDetailTableView.dataSource = self
         resturantDetailTableView.delegate = self
@@ -129,18 +147,25 @@ class loveOrNotResturantDetail: UIViewController {
 //MARK: - UITableViewDataSource
 extension loveOrNotResturantDetail: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return detailCount.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "resturantDetailTableViewCell", for: indexPath)
         
         let imageView = cell.viewWithTag(1) as! UIImageView
-        let url = URL(string: "\((detailPhoto[0])!)")
-        //let data = try!Data(contentsOf: url!)
-        //imageView.image = UIImage(data: data)
+        
+        if self.detailPhoto[indexPath.row]! != "a"{
+            self.decodedData = NSData(base64Encoded: self.detailPhoto[indexPath.row]!, options:  NSData.Base64DecodingOptions(rawValue: 0))
+            
+            if self.decodedData != nil{
+                let decodedimage = UIImage(data: self.decodedData! as Data)
+                imageView.image = decodedimage
+            }
+        }
         
         let mealLebal = cell.viewWithTag(2) as! UILabel
-        //mealLebal.text = detailMeal[indexPath.row]
+        mealLebal.text = detailMeal[indexPath.row]
         
         let dataLebal = cell.viewWithTag(3) as! UILabel
         dataLebal.text = detailDate[indexPath.row]

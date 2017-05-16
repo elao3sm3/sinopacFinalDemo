@@ -34,11 +34,8 @@ class EnterAndDownloadPage: UIViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        /*let queue = DispatchQueue(label: "com.EnterAndDownloadPage.dowwnload")
-        queue.sync {
-             startDownloadRestaurantName()
-        }*/
-      startDownloadRestaurantName()
+        
+        startDownloadRestaurantName()
         self.performSegue(withIdentifier: "goToTabbarVC", sender: nil)
     }
     
@@ -85,11 +82,16 @@ extension EnterAndDownloadPage: URLSessionDownloadDelegate{
                 for i in 0...(self.restaurantName?.count)!-1{
                     mydb.insert(tableName: "ResturantGet", rowInfo: ["RG_tableID":"'\(i)'","RG_id":"'\(((self.restaurantName?[i]["S_id"])!)!)'","RG_name":"'\(((self.restaurantName?[i]["S_name"])!)!)'","RG_address":"'\(((self.restaurantName?[i]["S_address"])!)!)'","RG_phone":"'\(((self.restaurantName?[i]["S_phone"])!)!)'","RG_latitude":"'\(((self.restaurantName?[i]["S_latitude"])!)!)'","RG_longitude":"'\(((self.restaurantName?[i]["S__longitude"])!)!)'","RG_price":"'\(((self.restaurantName?[i]["S_price"])!)!)'","RG_opentime":"'\(((self.restaurantName?[i]["S_opentime"])!)!)'","RG_closetime":"'\(((self.restaurantName?[i]["S_closetime"])!)!)'"/*,"RG_photo":"'\(((self.restaurantName?[i]["P_photos"])!)!)'"*/,"RG_style":"'\(((self.restaurantName?[i]["T_name"])!)!)'"])
 
-                    let photo: [String] = ((self.restaurantName![0]["P_photes"])!)! as! [String]
+                    let photo: [String] = ((self.restaurantName![i]["P_photes"])!)! as! [String]
+                    var type: [String] = ((self.restaurantName![i]["T_name"])!)! as! [String]
                     
-                        mydb.insert(tableName: "ResturantTypeAndPictureGet", rowInfo: ["RTPG_tableID":"'\(i)'","RTPG_name":"'\(((self.restaurantName?[i]["S_id"])!)!)'","RTPG_type1":"'nil'","RTPG_type2":"'nil'","RTPG_type3":"'nil'","RTPG_type4":"'nil'","RTPG_type5":"'nil'","RTPG_picture1":"'\(photo[0])'","RTPG_picture2":"'\(photo[0])'","RTPG_picture3":"'\(photo[0])'","RTPG_picture4":"'\(photo[0])'","RTPG_picture5":"'\(photo[0])'","RTPG_picture6":"'\(photo[0])'","RTPG_picture7":"'\(photo[0])'","RTPG_picture8":"'\(photo[0])'","RTPG_picture9":"'\(photo[0])'"])
+                    let count = 5 - type.count
+                    for i in 0...count{
+                        type.append("")
+                    }
                     
-                    print("ok"+photo[0])
+                        mydb.insert(tableName: "ResturantTypeAndPictureGet", rowInfo: ["RTPG_tableID":"'\(i)'","RTPG_name":"'\(((self.restaurantName?[i]["S_id"])!)!)'","RTPG_type1":"'\(type[0])'","RTPG_type2":"'\(type[1])'","RTPG_type3":"'\(type[2])'","RTPG_type4":"'\(type[3])'","RTPG_type5":"'\(type[4])'","RTPG_picture1":"'\(photo[0])'","RTPG_picture2":"'\(photo[0])'","RTPG_picture3":"'\(photo[0])'","RTPG_picture4":"'\(photo[0])'","RTPG_picture5":"'\(photo[0])'","RTPG_picture6":"'\(photo[0])'","RTPG_picture7":"'\(photo[0])'","RTPG_picture8":"'\(photo[0])'","RTPG_picture9":"'\(photo[0])'"])
+                    
                 }
             }
         }catch{
